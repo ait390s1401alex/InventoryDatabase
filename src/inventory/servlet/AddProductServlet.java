@@ -26,7 +26,13 @@ public class AddProductServlet extends HttpServlet {
 		
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String productName = req.getParameter("productName");
-        Product.createProduct(productName);
+        String quantity = req.getParameter("quantity");
+        String purchasePrice = req.getParameter("purchasePrice");
+        String salesPrice = req.getParameter("salesPrice");
+        String minQuantity = req.getParameter("minQuantity");
+        String maxQuantity = req.getParameter("maxQuantity");
+        
+        Product.createProduct(productName, quantity,  purchasePrice,  salesPrice, minQuantity,  maxQuantity);
         resp.sendRedirect("allProducts.jsp");
 }
 

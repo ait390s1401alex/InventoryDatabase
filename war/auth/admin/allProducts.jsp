@@ -72,24 +72,31 @@
 	<table border="1">
 		<tr>
 			<td>Product</td>
-			<td>Update</td>
-			<td>Delete</td>
+			<td>Quantity</td>
+			<td>Purchase Price</td>
+			<td>Sales Price</td>
+			<td>Min Quantity</td>
+			<td>Max Quantity</td>
+			<td>Deleted Product</td>
 		</tr>
 		<%
 			for (Entity product : allProducts) {
 					String productName = Product.getName(product);
+					String quantity = Product.getQuantity(product);
+					String purchasePrice = Product.getPurchasePrice(product);
+					String salesPrice = Product.getSalesPrice(product);
+					String minQuantity = Product.getMinQuantity(product);
+					String maxQuantity = Product.getMaxQuantity(product);
 					String id = Product.getStringID(product);
 		%>
 
 		<tr>
 			<td><%=productName%></td>
-			<td>
-				<form action="updateProduct" method="post">
-					<input type="hidden" name="id" value="<%=id%>" />
-					<input type="text" name="recordTime" size="20" />
-					<input type="submit" value="Update" />
-				</form>
-			</td>
+			<td><%=quantity%></td>
+			<td><%=purchasePrice%></td>
+			<td><%=salesPrice%></td>
+			<td><%=minQuantity%></td>
+			<td><%=maxQuantity%></td>
 			<td>
 				<a href="deleteProduct?id=<%=id%>">delete</a>
 			</td>
@@ -108,7 +115,26 @@
 
 	<hr />
     <form action="addProduct" method="post">
-      <div><input type="text" name="productName" size="50" /></div>
+    <table>
+    	<tr>
+    		<td>Product Name: </td><td><input type="text" name="productName" size="50" /></td>
+    	</tr>
+    	<tr>
+	    		<td>Quantity: </td><td><input type="text" name="quantity" size="50" /></td>
+    	</tr>
+    	<tr>
+	    		<td>Purchase Price: </td><td><input type="text" name="purchasePrice" size="50" /></td>
+    	</tr>
+    	<tr>
+	    		<td>Sales Price: </td><td><input type="text" name="salesPrice" size="50" /></td>
+    	</tr>
+    	<tr>
+	    		<td>Min Quantity Defined: </td><td><input type="text" name="minQuantity" size="50" /></td>
+    	</tr>
+    	<tr>
+	    		<td>Max Quantity Defined: </td><td><input type="text" name="maxQuantity" size="50" /></td>
+    	</tr>
+     </table>
       <div><input type="submit" value="Add Product" /></div>
     </form>
 

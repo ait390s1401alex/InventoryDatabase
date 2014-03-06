@@ -77,7 +77,7 @@ public class Product {
 	}
 
 	//
-	// Name
+	// ATTRIBUTES
 	//
 
 	/**
@@ -86,10 +86,45 @@ public class Product {
 	private static final String NAME_PROPERTY = "Name";
 
 	/**
-	 * Return the time for the record.
+	 * The property quantaty for the <b>quantity</b> value of the product.
+	 */
+	private static final String QTY_PROPERTY = "Quantity";
+	
+	/**
+	 * The property purchase_price for the <b>purchace_price</b> value of the product.
+	 */
+	private static final String PURCH_PRICE_PROPERTY = "Purchase_Price";
+	
+	/**
+	 * The property sales_price for the <b>sales_price</b> value of the product.
+	 */
+	private static final String SALES_PRICE_PROPERTY = "Sales_Price";
+	
+	/**
+	 * The property min_quantity for the <b>min_quantity</b> value of the product.
+	 */
+	private static final String MIN_QUANT_PROPERTY = "Min_Quantity";
+	
+	/**
+	 * The property max_quantity for the <b>max_quantity</b> value of the product.
+	 */
+	private static final String MAX_QUANT_PROPERTY = "Max_Quantity";
+	
+	
+	
+	
+	
+	//
+	// GETTERS
+	//
+	
+	
+	
+	/**
+	 * Return the name for the product.
 	 * 
-	 * @param record The GAE Entity storing the time
-	 * @return the time in the record.
+	 * @param record The GAE Entity storing the name
+	 * @return the name in the product.
 	 */
 	public static String getName(Entity record) {
 		Object name = record.getProperty(NAME_PROPERTY);
@@ -97,6 +132,76 @@ public class Product {
 			name = "";
 		return (String) name;
 	}
+	
+	
+	/**
+	 * Return the quantity for the product.
+	 * 
+	 * @param record The GAE Entity storing the quantity
+	 * @return the quantity in the product.
+	 */
+	public static String getQuantity(Entity record) {
+		Object quantity = record.getProperty(QTY_PROPERTY);
+		if (quantity == null)
+			quantity = "";
+		return (String) quantity;
+	}
+	
+	
+	/**
+	 * Return the purchase_price for the product.
+	 * 
+	 * @param record The GAE Entity storing the purchase_price
+	 * @return the purchase_price in the product.
+	 */
+	public static String getPurchasePrice(Entity record) {
+		Object purchase_price = record.getProperty(PURCH_PRICE_PROPERTY);
+		if (purchase_price == null)
+			purchase_price = "";
+		return (String) purchase_price;
+	}
+	
+	
+	/**
+	 * Return the sales_price for the product.
+	 * 
+	 * @param record The GAE Entity storing the sales_price
+	 * @return the sales_price in the product.
+	 */
+	public static String getSalesPrice(Entity record) {
+		Object sales_price = record.getProperty(SALES_PRICE_PROPERTY);
+		if (sales_price == null)
+			sales_price = "";
+		return (String) sales_price;
+	}
+	
+	
+	/**
+	 * Return the min_quantity for the product.
+	 * 
+	 * @param record The GAE Entity storing the min_quantity
+	 * @return the quantity in the product.
+	 */
+	public static String getMinQuantity(Entity record) {
+		Object min_quantity = record.getProperty(MIN_QUANT_PROPERTY);
+		if (min_quantity == null)
+			min_quantity = "";
+		return (String) min_quantity;
+	}
+	
+	/**
+	 * Return the max_quantity for the product.
+	 * 
+	 * @param record The GAE Entity storing the max_quantity
+	 * @return the quantity in the product.
+	 */
+	public static String getMaxQuantity(Entity record) {
+		Object max_quantity = record.getProperty(MAX_QUANT_PROPERTY);
+		if (max_quantity == null)
+			max_quantity = "";
+		return (String) max_quantity;
+	}
+	
 
 	
 
@@ -107,10 +212,17 @@ public class Product {
 	/**
 	 * Create a new product if the productID is correct and none exists with this id.
 	 * 
-	 * @param prodctID The time for this product.
+	 * @param productName The name for this product.
+	 * @param quantity The quantity for this product.
+	 * @param puchasePrice The purchase price for this product.
+	 * @param salesPrice The sales price for this product.
+	 * @param minQuantity The min quantity for this product.
+	 * @param maxQuantity The max quantity for this product.
+	 * 
 	 * @return the Entity created with this id or null if error
 	 */
-	public static Entity createProduct(String productName) {
+	public static Entity createProduct(String productName, String quantity,  String purchasePrice,  String salesPrice,
+			 String minQuantity,  String maxQuantity) {
 		Entity product = null;
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Transaction txn = datastore.beginTransaction();
@@ -118,6 +230,12 @@ public class Product {
 
 			product = new Entity(ENTITY_KIND);
 			product.setProperty(NAME_PROPERTY, productName);
+			product.setProperty(QTY_PROPERTY, quantity);
+			product.setProperty(PURCH_PRICE_PROPERTY, purchasePrice);
+			product.setProperty(SALES_PRICE_PROPERTY, salesPrice);
+			product.setProperty(MIN_QUANT_PROPERTY, minQuantity);
+			product.setProperty(MAX_QUANT_PROPERTY, maxQuantity);
+			
 			datastore.put(product);
 
 			txn.commit();
@@ -167,11 +285,17 @@ public class Product {
 	 * @param name The name of the product as a String.
 	 * @return true if succeed and false otherwise
 	 */
-	public static boolean updateProduct(String productID, String name) {
+	public static boolean updateProduct(String productID, String name, String quantity,  String purchasePrice,  String salesPrice,
+			 String minQuantity,  String maxQuantity) {
 		Entity product = null;
 		try {
 			product = getProduct(productID);
 			product.setProperty(NAME_PROPERTY, product);
+			product.setProperty(QTY_PROPERTY, quantity);
+			product.setProperty(PURCH_PRICE_PROPERTY, purchasePrice);
+			product.setProperty(SALES_PRICE_PROPERTY, salesPrice);
+			product.setProperty(MIN_QUANT_PROPERTY, minQuantity);
+			product.setProperty(MAX_QUANT_PROPERTY, maxQuantity);
 			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 			datastore.put(product);
 		} catch (Exception e) {
