@@ -72,7 +72,7 @@ public class InvTransaction {
 	/**
 	 * Return the string ID corresponding to the key for the invtransaction.
 	 * 
-	 * @param product The GAE Entity storing the invtransaction.
+	 * @param invTransaction The GAE Entity storing the invtransaction.
 	 * @return A string with the invtransaction ID (a long).
 	 */
 	public static String getStringID(Entity invTransaction) {
@@ -113,7 +113,7 @@ public class InvTransaction {
 	/**
 	 * Return the invUserID for the invtransaction.
 	 * 
-	 * @param invUserID The GAE Entity storing the invuserid
+	 * @param invtransaction The GAE Entity storing the invtransaction
 	 * @return the invUserID in the invtransaction.
 	 */
 	public static String getInvUserID(Entity invTransaction) {
@@ -126,7 +126,7 @@ public class InvTransaction {
 	/**
 	 * Return the productID for the invtransaction.
 	 * 
-	 * @param prouctID The GAE Entity storing the productid
+	 * @param invtransaction The GAE Entity storing the invtransaction
 	 * @return the productID in the invtransaction.
 	 */
 	public static String getProductID(Entity invTransaction) {
@@ -139,7 +139,7 @@ public class InvTransaction {
 	/**
 	 * Return the transQuantity for the invtransaction.
 	 * 
-	 * @param transQuantity The GAE Entity storing the transquantity
+	 * @param invtransaction The GAE Entity storing the invtransaction
 	 * @return the transQuantity in the invtransaction.
 	 */
 	public static String getTransQuantity(Entity invTransaction) {
@@ -152,7 +152,7 @@ public class InvTransaction {
 	/**
 	 * Return the transDate for the invtransaction.
 	 * 
-	 * @param transDate The GAE Entity storing the transquantity
+	 * @param invtransaction The GAE Entity storing the invtransaction
 	 * @return the transDate in the invtransaction.
 	 */
 	public static String getTransDate(Entity invTransaction) {
@@ -243,7 +243,7 @@ public class InvTransaction {
 	 * @param name The name of the inventoryTransaction as a String.
 	 * @return true if succeed and false otherwise
 	 */
-	public static boolean updateProduct(String invTransactionID, String invUserID, String productID, String transQuantity, String transDate) {
+	public static boolean updateInvTransaction(String invTransactionID, String invUserID, String productID, String transQuantity, String transDate) {
 		Entity invTransaction = null;
 		try {
 			invTransaction = getInvTransaction(invTransactionID);
