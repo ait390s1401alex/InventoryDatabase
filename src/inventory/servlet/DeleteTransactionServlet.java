@@ -9,6 +9,8 @@
 
 package inventory.servlet;
 
+import inventory.db.InvTransaction;
+
 import javax.servlet.http.*;
 import javax.servlet.ServletException;
 
@@ -21,11 +23,21 @@ public class DeleteTransactionServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-		
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		resp.sendRedirect(".jsp");
-	}
+		public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+			String id = req.getParameter("id");
+	        InvTransaction.deleteInvTransaction(id);
+	        resp.sendRedirect("allTransactions.jsp");
+			
+	    }
+		
+		@Override
+	    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+			String id = req.getParameter("id");
+	        InvTransaction.deleteInvTransaction(id);
+	        resp.sendRedirect("allTransactions.jsp");
+			
+	    }
 
 
 }

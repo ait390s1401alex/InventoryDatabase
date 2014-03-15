@@ -22,38 +22,35 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
 @SuppressWarnings("serial")
-public class LoginRequiredServlet extends HttpServlet {
+public class LoginSessionServlet extends HttpServlet {
 
-    private static final Map<String, String> openIdProviders;
-    static {
-        openIdProviders = new HashMap<String, String>();
-        openIdProviders.put("Google", "https://www.google.com/accounts/o8/id");
-        openIdProviders.put("Yahoo", "yahoo.com");
-        openIdProviders.put("MySpace", "myspace.com");
-        openIdProviders.put("AOL", "aol.com");
-        openIdProviders.put("MyOpenId.com", "myopenid.com");
-    }
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser(); // or req.getUserPrincipal()
-        Set<String> attributes = new HashSet<String>();
+        
+        HttpSession session = req.getSession();
+        
+        synchronized (session) {
+			if (user == null) {
+				resp.sendRedirect("/error.html");
+			}else{
+				session.setAttribute("user", user.getUserId());
+				resp.sendRedirect("/index.jsp");
+			}
 
-        String providerName = (String) req.getParameter("provider");
+		}
+		
+    	resp.sendRedirect("/index.jsp");
 
-        if (user == null) {
-            String providerUrl = openIdProviders.get(providerName);
-            String loginUrl = userService.createLoginURL("/_login_session", null, providerUrl, attributes);
-            resp.sendRedirect(loginUrl);
-        } else {
-        	resp.sendRedirect("/index.jsp");
-        }
     }
     
 }

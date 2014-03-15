@@ -31,6 +31,40 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	    </auth-constraint>
 	</security-constraint>
 	
+	<filter>
+		<filter-name>LoginRequiredFilter</filter-name>
+		<filter-class>inventory.servlet.LoginRequiredFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>LoginRequiredFilter</filter-name>
+		<url-pattern>/auth/*</url-pattern>
+	</filter-mapping>
+	
+	
+	<servlet>
+        <servlet-name>LoginSessionServlet</servlet-name>
+        <servlet-class>inventory.servlet.LoginSessionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginSessionServlet</servlet-name>
+        <url-pattern>/_login_session</url-pattern>
+    </servlet-mapping>
+    
+    
+		<!--  LOGOUT  -->
+	
+	<servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>inventory.servlet.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    
+    
+    
 	
 	
 	   <!-- ADMIN SERVLET: Product -->
@@ -60,6 +94,63 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>UpdateProductServlet</servlet-name>
 		<url-pattern>/auth/admin/updateProduct</url-pattern>
 	</servlet-mapping>
+	
+	<!-- ADMIN SERVLET: InvUser -->
+
+
+	<servlet>
+		<servlet-name>AddUserServlet</servlet-name>
+		<servlet-class>inventory.servlet.AddUserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddUserServlet</servlet-name>
+		<url-pattern>/auth/admin/addUser</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>DeleteUserServlet</servlet-name>
+		<servlet-class>inventory.servlet.DeleteUserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteUserServlet</servlet-name>
+		<url-pattern>/auth/admin/deleteUser</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>UpdateUserServlet</servlet-name>
+		<servlet-class>inventory.servlet.UpdateUserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateUserServlet</servlet-name>
+		<url-pattern>/auth/admin/updateUser</url-pattern>
+	</servlet-mapping>
+	
+	<!-- ADMIN SERVLET: InvTransaction -->
+
+
+	<servlet>
+		<servlet-name>AddTransactionServlet</servlet-name>
+		<servlet-class>inventory.servlet.AddTransactionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddTransactionServlet</servlet-name>
+		<url-pattern>/auth/admin/addTransaction</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>DeleteTransactionServlet</servlet-name>
+		<servlet-class>inventory.servlet.DeleteTransactionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteTransactionServlet</servlet-name>
+		<url-pattern>/auth/admin/deleteTransaction</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>UpdateTransactionServlet</servlet-name>
+		<servlet-class>inventory.servlet.UpdateTransactionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateTransactionServlet</servlet-name>
+		<url-pattern>/auth/admin/updateTransaction</url-pattern>
+	</servlet-mapping>
+
 	
 	
 	

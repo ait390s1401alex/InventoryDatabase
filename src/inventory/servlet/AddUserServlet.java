@@ -9,6 +9,8 @@
 
 package inventory.servlet;
 
+import inventory.db.InvUser;
+
 import javax.servlet.http.*;
 import javax.servlet.ServletException;
 
@@ -23,8 +25,12 @@ public class AddUserServlet extends HttpServlet {
 	
 		
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-		resp.sendRedirect(".jsp");
+		String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
+        String isAdmin = req.getParameter("isAdmin");
+        
+        InvUser.createInvUser(firstName, lastName, isAdmin);
+        resp.sendRedirect("allUsers.jsp");
 	}
 
 

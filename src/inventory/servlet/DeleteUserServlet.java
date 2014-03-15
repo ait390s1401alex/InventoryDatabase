@@ -9,6 +9,8 @@
 
 package inventory.servlet;
 
+import inventory.db.InvUser;
+
 import javax.servlet.http.*;
 import javax.servlet.ServletException;
 
@@ -22,10 +24,20 @@ public class DeleteUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 		
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-		resp.sendRedirect(".jsp");
-	}
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		String id = req.getParameter("id");
+        InvUser.deleteInvUser(id);
+        resp.sendRedirect("allUsers.jsp");
+		
+    }
+	
+	@Override
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		String id = req.getParameter("id");
+        InvUser.deleteInvUser(id);
+        resp.sendRedirect("allUsers.jsp");
+		
+    }
 
 
 }

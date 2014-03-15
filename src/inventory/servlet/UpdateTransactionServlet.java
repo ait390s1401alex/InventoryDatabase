@@ -15,8 +15,10 @@ import javax.servlet.http.*;
 import javax.servlet.ServletException;
 
 import java.io.IOException;
+import java.util.Date;
 
-public class AddTransactionServlet extends HttpServlet {
+
+public class UpdateTransactionServlet extends HttpServlet {
 
 	/**
 	 * 
@@ -25,13 +27,15 @@ public class AddTransactionServlet extends HttpServlet {
 	
 		
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id = req.getParameter("id");
 		String invUserID = req.getParameter("invUserID");
-        String productID = req.getParameter("productID");
+		String productID = req.getParameter("productID");
         String transQuantity = req.getParameter("transQuantity");
-        
-        InvTransaction.createInvTransaction(invUserID, productID, transQuantity);
+        Date date = new Date();
+
+        InvTransaction.updateInvTransaction(id, invUserID, productID,  transQuantity,  date.toString());
         resp.sendRedirect("allTransactions.jsp");
-	}
+}
 
 
 }

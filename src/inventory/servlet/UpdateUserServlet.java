@@ -9,6 +9,8 @@
 
 package inventory.servlet;
 
+import inventory.db.InvUser;
+
 import javax.servlet.http.*;
 import javax.servlet.ServletException;
 
@@ -23,8 +25,13 @@ public class UpdateUserServlet extends HttpServlet {
 	
 		
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-		resp.sendRedirect(".jsp");
+		String invUserID = req.getParameter("invUserID");
+		String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
+        String isAdmin = req.getParameter("isAdmin");
+        
+        InvUser.updateUser(invUserID, firstName, lastName, isAdmin);
+        resp.sendRedirect("allUsers.jsp");
 	}
 
 

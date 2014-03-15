@@ -8,7 +8,9 @@
 
 package inventory.db;
 
+import java.util.Date;
 import java.util.List;
+
 
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -179,7 +181,7 @@ public class InvTransaction {
 	 * @param transDate the transdate for this invtransaction
 	 * @return the Entity created with this id or null if error
 	 */
-	public static Entity createInvTransaction(String invUserID, String productID, String transQuantity, String transDate) {
+	public static Entity createInvTransaction(String invUserID, String productID, String transQuantity) {
 		Entity invTransaction = null;
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Transaction txn = datastore.beginTransaction();
@@ -189,7 +191,8 @@ public class InvTransaction {
 			invTransaction.setProperty(INV_USERID_PROPERTY, invUserID);
 			invTransaction.setProperty(PRODUCTID_PROPERTY, productID);
 			invTransaction.setProperty(TRANS_QUANT_PROPERTY, transQuantity);
-			invTransaction.setProperty(TRANS_DATE_PROPERTY, transDate);
+			Date date = new Date();
+			invTransaction.setProperty(TRANS_DATE_PROPERTY, date.toString());
 			datastore.put(invTransaction);
 
 			txn.commit();
