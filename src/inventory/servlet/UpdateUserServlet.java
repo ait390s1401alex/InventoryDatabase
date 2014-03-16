@@ -31,7 +31,11 @@ public class UpdateUserServlet extends HttpServlet {
         String isAdmin = req.getParameter("isAdmin");
         
         InvUser.updateUser(invUserID, firstName, lastName, isAdmin);
-        resp.sendRedirect("allUsers.jsp");
+        if(req.getRequestURI().equals("/auth/admin/addUser")){
+        	resp.sendRedirect("allUsers.jsp");
+        }else{
+        	resp.sendRedirect("index.jsp");
+        }
 	}
 
 
