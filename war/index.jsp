@@ -16,6 +16,7 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="javax.servlet.http.HttpServletRequest" %>
 <%@ page import="javax.servlet.http.HttpSession" %>
+<%@ page import="inventory.db.InvUser" %>
 
 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -54,14 +55,30 @@
 					%>
 						<p>Welcome, ${fn:escapeXml(user.nickname)}! (You can <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p>
 					
-				</td>
-				</tr>
-				<tr><td>
-					<p><a href="/auth/user/user.jsp">User Portal</a></p>
-					<p><a href="/auth/admin/admin.jsp">Admin Portal</a></p>
-				
-					
 					<%
+						Entity invUser = InvUser.getInvUserWithLoginID(user.getNickname());
+					
+						if(invUser == null){
+							%>
+							<jsp:forward page="editProfile.jsp" />
+							<%
+						}else{
+							%>
+							
+							</td>
+							</tr>
+							<tr>
+							<td><h1>Welcome <%=InvUser.getFirstName(invUser) %>!</h1></td>
+							</tr>
+							<tr>
+							<td>
+								<p><a href="/auth/user/user.jsp">User Portal</a></p>
+								<p><a href="/auth/admin/admin.jsp">Admin Portal</a></p>
+
+							
+							
+							<%
+						}
 					
 					    } else {
 					    	
@@ -82,6 +99,7 @@
 				            }
 
 					    }
+				    
 					%>
 				</td>
 	  		</tr>

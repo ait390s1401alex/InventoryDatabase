@@ -99,6 +99,7 @@
 	<h1>All Users</h1>
 	<table border="1">
 		<tr>
+			<td>User ID</td>
 			<td>First Name</td>
 			<td>Last Name</td>
 			<td>isAdmin</td>
@@ -111,9 +112,11 @@
 					String lastName = InvUser.getLastName(invUser);
 					String isAdmin = InvUser.getIsAdmin(invUser);
 					String invUserID = InvUser.getStringID(invUser);
+					String loginID = InvUser.getLoginID(invUser);
 		%>
 
 		<tr id="view<%=invUserID%>">
+				<td><%=loginID %></td>
 				<td><%=firstName%></td>
 				<td><%=lastName %></td>
 				<td><%=isAdmin %></td>
@@ -122,6 +125,7 @@
 		</tr>
 		
 		<tr id="edit<%=invUserID%>" style="display: none">
+				<td><input id="loginID<%=invUserID%>" type="text" name="loginID" value="<%=loginID%>" size="20" disabled="true" /></td>
 				<td><input id="firstName<%=invUserID%>" type="text" name="firstName" value="<%=firstName%>" size="20" /></td>
 				<td><input id="lastName<%=invUserID%>" type="text" name="lastName" value="<%=lastName%>" size="20" /></td>
 				<td><input id="isAdmin<%=invUserID%>" type="text" name="isAdmin" value="<%=isAdmin%>" size="20" /></td>
@@ -142,11 +146,13 @@
 	<form action="addUser" method="post">
 	<table>
 		<tr>
+			<td>Login ID</td>
 			<td>First Name</td>
 			<td>Last Name</td>
 			<td>isAdmin</td>
 		</tr>
 		<tr>
+			<td><input type="text" name="loginID" size="20" /></td>
 	    	<td><input type="text" name="firstName" size="20" /></td>
 			<td><input type="text" name="lastName" size="20" /></td>
 			<td><input type="text" name="isAdmin" size="20" /></td>
@@ -157,7 +163,7 @@
     
     <div>
     	<form id="finalSubmit" action="updateUser" method="post">
-	    	<input id="invUserIDUpdate" type="hidden" name="id" value="" />
+	    	<input id="invUserIDUpdate" type="hidden" name="id" />
 	    	<input id="firstNameUpdate" type="hidden" name="firstName" />
 			<input id="lastNameUpdate" type="hidden" name="lastName"  />
 			<input id="isAdminUpdate" type="hidden" name="isAdmin"  />

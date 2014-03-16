@@ -150,6 +150,27 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>UpdateTransactionServlet</servlet-name>
 		<url-pattern>/auth/admin/updateTransaction</url-pattern>
 	</servlet-mapping>
+	
+	
+	<!-- USER SERVLET: InvUser -->
+
+
+	<servlet>
+		<servlet-name>AddUserServlet</servlet-name>
+		<servlet-class>inventory.servlet.AddUserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddUserServlet</servlet-name>
+		<url-pattern>/addUser</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>UpdateUserServlet</servlet-name>
+		<servlet-class>inventory.servlet.UpdateUserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateUserServlet</servlet-name>
+		<url-pattern>/updateUser</url-pattern>
+	</servlet-mapping>
 
 	
 	

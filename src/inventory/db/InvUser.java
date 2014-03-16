@@ -11,6 +11,7 @@ package inventory.db;
 import java.util.List;
 
 
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -19,6 +20,9 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Transaction;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 
 
 /**
@@ -83,6 +87,11 @@ public class InvUser {
 	
 	
 	/**
+	 * The property loginID for the <b>loginID</b> value of the invuser.
+	 */
+	private static final String LOGINID_PROPERTY = "LoginID";
+	
+	/**
 	 * The property firstName for the <b>firstname</b> value of the invuser.
 	 */
 	private static final String FIRSTNAME_PROPERTY = "FirstName";
@@ -103,6 +112,19 @@ public class InvUser {
 	//
 	// GETTERS
 	//
+	
+	/**
+	 * Return the loginID for the invuser.
+	 * 
+	 * @param invuser The GAE Entity storing the invuser
+	 * @return the loginid in the invuser.
+	 */
+	public static String getLoginID(Entity invUser) {
+		Object loginID = invUser.getProperty(LOGINID_PROPERTY);
+		if (loginID == null)
+			loginID = "";
+		return (String) loginID;
+	}
 	
 	/**
 	 * Return the firstname for the invuser.
@@ -160,13 +182,14 @@ public class InvUser {
 	 * @param isAdmin the isAdmin value for this invuser
 	 * @return the Entity created with this id or null if error
 	 */
-	public static Entity createInvUser(String firstName, String lastName, String isAdmin) {
+	public static Entity createInvUser(String loginID, String firstName, String lastName, String isAdmin) {
 		Entity invUser = null;
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Transaction txn = datastore.beginTransaction();
 		try {
 
 			invUser = new Entity(ENTITY_KIND);
+			invUser.setProperty(LOGINID_PROPERTY, loginID);
 			invUser.setProperty(FIRSTNAME_PROPERTY, firstName);
 			invUser.setProperty(LASTNAME_PROPERTY, lastName);
 			invUser.setProperty(ISADMIN_PROPERTY, isAdmin);
@@ -206,6 +229,40 @@ public class InvUser {
 		}
 		return invUser;
 	}
+	
+	
+	/**
+     * Get an user based on a string containing its loginID.
+     * @param loginID The login of the user as a String.
+     * @return A GAE {@link Entity} for the user or <code>null</code> if none or error.
+     */
+    public static Entity getInvUserWithLoginID(String loginID) {
+            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+            return getInvUserWithLoginID(datastore, loginID);
+    }
+    
+    /**
+     * Get a user based on a string containing its name.
+     * @param datastore The current datastore instance. 
+     * @param loginID for user
+     * @return A GAE {@link Entity} for the User or <code>null</code> if none or error.
+     */
+    public static Entity getInvUserWithLoginID(DatastoreService datastore, String loginID) {
+            Entity invUser = null;
+            try {
+                    
+                    Filter hasLoginID = new FilterPredicate(LOGINID_PROPERTY, FilterOperator.EQUAL, loginID);
+                    Query query = new Query(ENTITY_KIND);
+                    query.setFilter(hasLoginID);
+                    List<Entity> result = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(10));
+                    if (result!=null && result.size()>0) {
+                            invUser=result.get(0);
+                    }
+            } catch (Exception e) {
+                    // TODO log the error
+            }
+            return invUser;
+    }
 
 
 	//

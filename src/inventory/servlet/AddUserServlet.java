@@ -25,12 +25,19 @@ public class AddUserServlet extends HttpServlet {
 	
 		
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String loginID = req.getParameter("loginID");
 		String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
         String isAdmin = req.getParameter("isAdmin");
         
-        InvUser.createInvUser(firstName, lastName, isAdmin);
-        resp.sendRedirect("allUsers.jsp");
+        InvUser.createInvUser(loginID, firstName, lastName, isAdmin);
+        
+        if(req.getRequestURI().equals("/auth/admin/addUser")){
+        	resp.sendRedirect("allUsers.jsp");
+        }else{
+        	resp.sendRedirect("index.jsp");
+        }
+        
 	}
 
 
