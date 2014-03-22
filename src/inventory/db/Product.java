@@ -288,6 +288,11 @@ public class Product {
 	 * 
 	 * @param productID A string with the product ID (a long).
 	 * @param name The name of the product as a String.
+	 * @param quantity The quantity of the product as a String.
+	 * @param purchasePrice The purchase price of the product as a String.
+	 * @param salesPrice The sales price of the product as a String.
+	 * @param minQuantity The minumim quantity of the product as a String.
+	 * @param maxQuantity The maximum quanitity of the product as a String.
 	 * @return true if succeed and false otherwise
 	 */
 	public static boolean updateProduct(String productID, String name, String quantity,  String purchasePrice,  String salesPrice,

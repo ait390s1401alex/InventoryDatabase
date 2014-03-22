@@ -31,10 +31,10 @@ public class UpdateUserServlet extends HttpServlet {
         String isAdmin = req.getParameter("isAdmin");
         
         InvUser.updateUser(invUserID, firstName, lastName, isAdmin);
-        if(req.getRequestURI().equals("/auth/admin/addUser")){
+        if(req.getRequestURI().equals("/auth/admin/updateUser")){
         	resp.sendRedirect("allUsers.jsp");
         }else{
-        	resp.sendRedirect("index.jsp");
+        	resp.sendRedirect("/index.jsp");
         }
 	}
 
