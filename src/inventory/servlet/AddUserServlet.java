@@ -29,8 +29,9 @@ public class AddUserServlet extends HttpServlet {
 		String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
         String isAdmin = req.getParameter("isAdmin");
+        String isStandardUser = req.getParameter("isStandardUser");
         
-        InvUser.createInvUser(loginID, firstName, lastName, isAdmin);
+        InvUser.createInvUser(loginID, firstName, lastName, isAdmin, isStandardUser);
         
         if(req.getRequestURI().equals("/auth/admin/addUser")){
         	resp.sendRedirect("allUsers.jsp");

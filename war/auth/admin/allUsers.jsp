@@ -59,6 +59,7 @@
     	$("#firstNameUpdate").val($("#firstName"+ID).val());
     	$("#lastNameUpdate").val($("#lastName"+ID).val());
     	$("#isAdminUpdate").val($("#isAdmin"+ID).val());
+    	$("#isStandardUserUpdate").val($("#isStandardUser"+ID).val());
     	document.forms["finalSubmit"].submit();
     }
     
@@ -104,6 +105,7 @@
 			<td>First Name</td>
 			<td>Last Name</td>
 			<td>isAdmin</td>
+			<td>isAuthenticatedUser</td>
 			<td>Edit</td>
 			<td>Delete</td>
 		</tr>
@@ -112,6 +114,7 @@
 					String firstName = InvUser.getFirstName(invUser);
 					String lastName = InvUser.getLastName(invUser);
 					String isAdmin = InvUser.getIsAdmin(invUser);
+					String isStandardUser = InvUser.getIsStandardUser(invUser);
 					String invUserID = InvUser.getStringID(invUser);
 					String loginID = InvUser.getLoginID(invUser);
 		%>
@@ -121,6 +124,7 @@
 				<td><%=firstName%></td>
 				<td><%=lastName %></td>
 				<td><%=isAdmin %></td>
+				<td><%=isStandardUser %></td>
 				<td><button type="button" onclick="editButton(<%=invUserID%>)">Edit</button></td>
 				<td><button type="button" onclick="deleteButton(<%=invUserID%>)">Delete</button></td>
 		</tr>
@@ -130,6 +134,7 @@
 				<td><input id="firstName<%=invUserID%>" type="text" name="firstName" value="<%=firstName%>" size="20" /></td>
 				<td><input id="lastName<%=invUserID%>" type="text" name="lastName" value="<%=lastName%>" size="20" /></td>
 				<td><input id="isAdmin<%=invUserID%>" type="text" name="isAdmin" value="<%=isAdmin%>" size="20" /></td>
+				<td><input id="isStandardUser<%=invUserID%>" type="text" name="isStandardUser" value="<%=isStandardUser%>" size="20" /></td>
 				<td><button type="button" onclick="cancelButton(<%=invUserID%>)">cancel</button><button type="button" onclick="saveButton(<%=invUserID%>)">save</button></td>
 				<td><button type="button" onclick="deleteButton(<%=invUserID%>)">Delete</button></td>		</tr>
 		
@@ -146,17 +151,21 @@
 	<hr />
 	<form action="addUser" method="post">
 	<table>
+
 		<tr>
-			<td>Login ID</td>
-			<td>First Name</td>
-			<td>Last Name</td>
-			<td>isAdmin</td>
+			<td>Login ID</td><td><input type="text" name="loginID" size="20" /></td>
 		</tr>
 		<tr>
-			<td><input type="text" name="loginID" size="20" /></td>
-	    	<td><input type="text" name="firstName" size="20" /></td>
-			<td><input type="text" name="lastName" size="20" /></td>
-			<td><input type="text" name="isAdmin" size="20" /></td>
+	    	<td>First Name</td><td><input type="text" name="firstName" size="20" /></td>
+    	</tr>
+    	<tr>
+			<td>Last Name</td><td><input type="text" name="lastName" size="20" /></td>
+		</tr>
+		<tr>
+			<td>isAdmin</td><td><input type="text" name="isAdmin" size="20" /></td>
+		</tr>
+		<tr>
+			<td>isStandardUser</td><td><input type="text" name="isStandardUser" size="20" /></td>
 		</tr>
 	</table>
 		<input type="submit" value="Add User" />
@@ -168,6 +177,7 @@
 	    	<input id="firstNameUpdate" type="hidden" name="firstName" />
 			<input id="lastNameUpdate" type="hidden" name="lastName"  />
 			<input id="isAdminUpdate" type="hidden" name="isAdmin"  />
+			<input id="isStandardUserUpdate" type="hidden" name="isStandardUser"  />
     	</form>
     </div>
 

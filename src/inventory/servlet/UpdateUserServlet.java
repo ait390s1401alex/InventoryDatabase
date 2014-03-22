@@ -29,8 +29,9 @@ public class UpdateUserServlet extends HttpServlet {
 		String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
         String isAdmin = req.getParameter("isAdmin");
+        String isStandardUser = req.getParameter("isStandardUser");
         
-        InvUser.updateUser(invUserID, firstName, lastName, isAdmin);
+        InvUser.updateUser(invUserID, firstName, lastName, isAdmin, isStandardUser);
         if(req.getRequestURI().equals("/auth/admin/updateUser")){
         	resp.sendRedirect("allUsers.jsp");
         }else{
