@@ -12,6 +12,7 @@
 <%@ page import="com.google.appengine.api.datastore.KeyFactory" %>
 <%@ page import="inventory.db.InvTransaction" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 
@@ -83,9 +84,12 @@
 	%>
 		<p>Hello, ${fn:escapeXml(user.nickname)}! (You can <a href="/logout">sign out</a>.)</p>
 	<%
-	    }
-	%>
-  
+	    }else {
+	    	%>
+			<c:redirect url="/index.jsp" />
+		<%
+		    }
+		%>
   
 	<%
 		List<Entity> allTransactions = InvTransaction.getFirstInvTransactions(100);

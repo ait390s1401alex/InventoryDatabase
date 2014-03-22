@@ -62,8 +62,8 @@ public class Product {
 	/**
 	 * Return the Key for a given Permit id given as String.
 	 * 
-	 * @param recordID A string with the record ID (a long).
-	 * @return the Key for this recordID.
+	 * @param recordID A string with the product ID (a long).
+	 * @return the Key for this productID.
 	 */
 	public static Key getKey(String productID) {
 		long id = Long.parseLong(productID);
@@ -72,10 +72,10 @@ public class Product {
 	}
 
 	/**
-	 * Return the string ID corresponding to the key for the permit.
+	 * Return the string ID corresponding to the key for the product.
 	 * 
-	 * @param record The GAE Entity storing the record.
-	 * @return A string with the record ID (a long).
+	 * @param record The GAE Entity storing the product.
+	 * @return A string with the product ID (a long).
 	 */
 	public static String getStringID(Entity product) {
 		return Long.toString(product.getKey().getId());
@@ -128,11 +128,11 @@ public class Product {
 	/**
 	 * Return the name for the product.
 	 * 
-	 * @param record The GAE Entity storing the name
+	 * @param product The GAE Entity storing the name
 	 * @return the name in the product.
 	 */
-	public static String getName(Entity record) {
-		Object name = record.getProperty(NAME_PROPERTY);
+	public static String getName(Entity product) {
+		Object name = product.getProperty(NAME_PROPERTY);
 		if (name == null)
 			name = "";
 		return (String) name;
@@ -142,11 +142,11 @@ public class Product {
 	/**
 	 * Return the quantity for the product.
 	 * 
-	 * @param record The GAE Entity storing the quantity
+	 * @param product The GAE Entity storing the quantity
 	 * @return the quantity in the product.
 	 */
-	public static String getQuantity(Entity record) {
-		Object quantity = record.getProperty(QTY_PROPERTY);
+	public static String getQuantity(Entity product) {
+		Object quantity = product.getProperty(QTY_PROPERTY);
 		if (quantity == null)
 			quantity = "";
 		return (String) quantity;
@@ -156,11 +156,11 @@ public class Product {
 	/**
 	 * Return the purchase_price for the product.
 	 * 
-	 * @param record The GAE Entity storing the purchase_price
+	 * @param product The GAE Entity storing the purchase_price
 	 * @return the purchase_price in the product.
 	 */
-	public static String getPurchasePrice(Entity record) {
-		Object purchase_price = record.getProperty(PURCH_PRICE_PROPERTY);
+	public static String getPurchasePrice(Entity product) {
+		Object purchase_price = product.getProperty(PURCH_PRICE_PROPERTY);
 		if (purchase_price == null)
 			purchase_price = "";
 		return (String) purchase_price;
@@ -170,11 +170,11 @@ public class Product {
 	/**
 	 * Return the sales_price for the product.
 	 * 
-	 * @param record The GAE Entity storing the sales_price
+	 * @param product The GAE Entity storing the sales_price
 	 * @return the sales_price in the product.
 	 */
-	public static String getSalesPrice(Entity record) {
-		Object sales_price = record.getProperty(SALES_PRICE_PROPERTY);
+	public static String getSalesPrice(Entity product) {
+		Object sales_price = product.getProperty(SALES_PRICE_PROPERTY);
 		if (sales_price == null)
 			sales_price = "";
 		return (String) sales_price;
@@ -184,11 +184,11 @@ public class Product {
 	/**
 	 * Return the min_quantity for the product.
 	 * 
-	 * @param record The GAE Entity storing the min_quantity
+	 * @param product The GAE Entity storing the min_quantity
 	 * @return the quantity in the product.
 	 */
-	public static String getMinQuantity(Entity record) {
-		Object min_quantity = record.getProperty(MIN_QUANT_PROPERTY);
+	public static String getMinQuantity(Entity product) {
+		Object min_quantity = product.getProperty(MIN_QUANT_PROPERTY);
 		if (min_quantity == null)
 			min_quantity = "";
 		return (String) min_quantity;
@@ -197,11 +197,11 @@ public class Product {
 	/**
 	 * Return the max_quantity for the product.
 	 * 
-	 * @param record The GAE Entity storing the max_quantity
+	 * @param product The GAE Entity storing the max_quantity
 	 * @return the quantity in the product.
 	 */
-	public static String getMaxQuantity(Entity record) {
-		Object max_quantity = record.getProperty(MAX_QUANT_PROPERTY);
+	public static String getMaxQuantity(Entity product) {
+		Object max_quantity = product.getProperty(MAX_QUANT_PROPERTY);
 		if (max_quantity == null)
 			max_quantity = "";
 		return (String) max_quantity;

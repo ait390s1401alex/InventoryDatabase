@@ -88,12 +88,12 @@ public class InvTransaction {
 	/**
 	 * The property invUserID for the <b>invUserID</b> value of the invtransaction.
 	 */
-	private static final String INV_USERID_PROPERTY = "Inv_UserID_Quantity";
+	private static final String INV_USERID_PROPERTY = "Inv_UserID";
 	
 	/**
 	 * The property productID for the <b>productID</b> value of the invtransaction.
 	 */
-	private static final String PRODUCTID_PROPERTY = "ProductID_Quantity";
+	private static final String PRODUCTID_PROPERTY = "ProductID";
 
 	/**
 	 * The property transQuantity for the <b>transQuantity</b> value of the invtransaction.

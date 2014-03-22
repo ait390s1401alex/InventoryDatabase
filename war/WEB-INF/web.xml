@@ -95,6 +95,39 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/auth/admin/updateProduct</url-pattern>
 	</servlet-mapping>
 	
+	
+		
+	
+	<!-- ADMIN SERVLET: Rental -->
+
+
+	<servlet>
+		<servlet-name>AddRentalServlet</servlet-name>
+		<servlet-class>inventory.servlet.AddRentalServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddRentalServlet</servlet-name>
+		<url-pattern>/auth/admin/addRental</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>DeleteRentalServlet</servlet-name>
+		<servlet-class>inventory.servlet.DeleteRentalServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteRentalServlet</servlet-name>
+		<url-pattern>/auth/admin/deleteRental</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>UpdateRentalServlet</servlet-name>
+		<servlet-class>inventory.servlet.UpdateRentalServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateRentalServlet</servlet-name>
+		<url-pattern>/auth/admin/updateRental</url-pattern>
+	</servlet-mapping>
+	
+	
+	
 	<!-- ADMIN SERVLET: InvUser -->
 
 
@@ -150,6 +183,37 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>UpdateTransactionServlet</servlet-name>
 		<url-pattern>/auth/admin/updateTransaction</url-pattern>
 	</servlet-mapping>
+	
+	
+	
+	<!-- ADMIN SERVLET: RentTransaction -->
+
+
+	<servlet>
+		<servlet-name>AddRentalTransactionServlet</servlet-name>
+		<servlet-class>inventory.servlet.AddRentalTransactionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddRentalTransactionServlet</servlet-name>
+		<url-pattern>/auth/admin/addRentalTransaction</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>DeleteRentalTransactionServlet</servlet-name>
+		<servlet-class>inventory.servlet.DeleteRentalTransactionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteRentalTransactionServlet</servlet-name>
+		<url-pattern>/auth/admin/deleteRentalTransaction</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>UpdateRentalTransactionServlet</servlet-name>
+		<servlet-class>inventory.servlet.UpdateRentalTransactionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateRentalTransactionServlet</servlet-name>
+		<url-pattern>/auth/admin/updateRentalTransaction</url-pattern>
+	</servlet-mapping>
+	
 	
 	
 	<!-- USER SERVLET: InvUser -->
