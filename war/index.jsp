@@ -53,7 +53,7 @@
 				    if (user != null) {
 				      	pageContext.setAttribute("user", user);
 					%>
-						<p>Welcome, ${fn:escapeXml(user.nickname)}! (You can <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p><p><a href="editProfile.jsp">Edit profile</a></p>
+						<p>Welcome, ${fn:escapeXml(user.nickname)}! (You can <a href="/logout">sign out</a>.)</p><p><a href="editProfile.jsp">Edit profile</a></p>
 					
 					<%
 						Entity invUser = InvUser.getInvUserWithLoginID(user.getNickname());

@@ -85,7 +85,7 @@
     if (user != null) {
       	pageContext.setAttribute("user", user);
 	%>
-		<p>Hello, ${fn:escapeXml(user.nickname)}! (You can <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p>
+		<p>Hello, ${fn:escapeXml(user.nickname)}! (You can <a href="/logout">sign out</a>.)</p>
 	<%
 	    } else {
 	%>

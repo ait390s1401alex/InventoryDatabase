@@ -33,6 +33,7 @@ public class UpdateProductServlet extends HttpServlet {
         String salesPrice = req.getParameter("salesPrice");
         String minQuantity = req.getParameter("minQuantity");
         String maxQuantity = req.getParameter("maxQuantity");
+
         
         Product.updateProduct(id, productName, quantity,  purchasePrice,  salesPrice, minQuantity,  maxQuantity);
         resp.sendRedirect("allProducts.jsp");

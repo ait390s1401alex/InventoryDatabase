@@ -300,7 +300,7 @@ public class Product {
 		Entity product = null;
 		try {
 			product = getProduct(productID);
-			product.setProperty(NAME_PROPERTY, product);
+			product.setProperty(NAME_PROPERTY, name);
 			product.setProperty(QTY_PROPERTY, quantity);
 			product.setProperty(PURCH_PRICE_PROPERTY, purchasePrice);
 			product.setProperty(SALES_PRICE_PROPERTY, salesPrice);

@@ -58,7 +58,7 @@
     	$("#invTransactionIDUpdate").val(ID);
     	$("#invUserIDUpdate").val($("#invUserID"+ID).val());
     	$("#productIDUpdate").val($("#productID"+ID).val());
-    	$("#transQuantity").val($("#transQuantity"+ID).val());
+    	$("#transQuantityUpdate").val($("#transQuantity"+ID).val());
     	document.forms["finalSubmit"].submit();
     }
     
@@ -162,7 +162,7 @@
     
     <div>
     	<form id="finalSubmit" action="updateTransaction" method="post">
-	    	<input id="intTransactionIDUpdate" type="hidden" name="id" value="" />
+	    	<input id="invTransactionIDUpdate" type="hidden" name="id" />
 	    	<input id="invUserIDUpdate" type="hidden" name="invUserID" />
 			<input id="productIDUpdate" type="hidden" name="productID"  />
 			<input id="transQuantityUpdate" type="hidden" name="transQuantity"  />
