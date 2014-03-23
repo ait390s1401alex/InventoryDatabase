@@ -59,8 +59,8 @@
     	$("#rentTransactionIDUpdate").val(ID);
     	$("#invUserIDUpdate").val($("#invUserID"+ID).val());
     	$("#rentalIDUpdate").val($("#rentalID"+ID).val());
-    	$("#inDateUpdate").val($("#inDate"+ID).val());
-    	$("#outDateUpdate").val($("#outDate"+ID).val());
+    	$("#inOutUpdate").val($("#inOut"+ID).val());
+    	$("#dateUpdate").val($("#date"+ID).val());
     	$("#customerUpdate").val($("#customer"+ID).val());
     	document.forms["finalSubmit"].submit();
     }
@@ -107,8 +107,8 @@
 		<tr>
 			<td>UserID</td>
 			<td>RentalID</td>
-			<td>inDate</td>
-			<td>outDate</td>
+			<td>In/Out</td>
+			<td>date</td>
 			<td>Customer</td>
 			<td>Edit</td>
 			<td>Delete</td>
@@ -117,8 +117,8 @@
 			for (Entity rentTransaction : allTransactions) {
 					String invUserID = RentTransaction.getInvUserID(rentTransaction);
 					String rentalID = RentTransaction.getRentalID(rentTransaction);
-					String inDate = RentTransaction.getInDate(rentTransaction);
-					String outDate = RentTransaction.getOutDate(rentTransaction);
+					String inOut = RentTransaction.getInOut(rentTransaction);
+					String date = RentTransaction.getDate(rentTransaction);
 					String customer = RentTransaction.getCustomer(rentTransaction);
 					String rentTransID = RentTransaction.getStringID(rentTransaction);
 		%>
@@ -126,8 +126,8 @@
 		<tr id="view<%=rentTransID%>">
 				<td><%=invUserID%></td>
 				<td><%=rentalID %></td>
-				<td><%=inDate %></td>
-				<td><%=outDate %></td>
+				<td><%=inOut %></td>
+				<td><%=date %></td>
 				<td><%=customer %></td>
 				<td><button type="button" onclick="editButton(<%=rentTransID%>)">Edit</button></td>
 				<td><button type="button" onclick="deleteButton(<%=rentTransID%>)">Delete</button></td>
@@ -136,8 +136,8 @@
 		<tr id="edit<%=rentTransID%>" style="display: none">
 				<td><input id="invUserID<%=rentTransID%>" type="text" name="invUserID" value="<%=invUserID%>" size="20" /></td>
 				<td><input id="rentalID<%=rentTransID%>" type="text" name="rentalID" value="<%=rentalID%>" size="20" /></td>
-				<td><input id="inDate<%=rentTransID%>" type="text" name="inDate" value="<%=inDate%>" size="20" /></td>
-				<td><input id="outDate<%=rentTransID%>" type="text" name="outDate" value="<%=outDate%>" size="20" /></td>
+				<td><input id="inOut<%=rentTransID%>" type="text" name="inOut" value="<%=inOut%>" size="20" /></td>
+				<td><input id="date<%=rentTransID%>" type="text" name="date" value="<%=date%>" size="20" /></td>
 				<td><input id="customer<%=rentTransID%>" type="text" name="customer" value="<%=customer%>" size="20" /></td>
 				<td><button type="button" onclick="cancelButton(<%=rentTransID%>)">cancel</button><button type="button" onclick="saveButton(<%=rentTransID%>)">save</button></td>
 				<td><button type="button" onclick="deleteButton(<%=rentTransID%>)">Delete</button></td>		
@@ -163,10 +163,10 @@
 			<td>Rental ID</td><td><input type="text" name="rentalID" size="20" /></td>
 		</tr>
 		<tr>
-			<td>In Date</td><td><input type="text" name="inDate" size="20" /></td>
+			<td>In / Out</td><td><input type="text" name="inOut" size="20" /></td>
 		</tr>
 		<tr>
-			<td>Out Date</td><td><input type="text" name="outDate" size="20" /></td>
+			<td>Date</td><td><input type="text" name="date" size="20" /></td>
 		</tr>
 		<tr>
 			<td>Customer</td><td><input type="text" name="customer" size="20" /></td>
@@ -180,8 +180,8 @@
 	    	<input id="rentTransactionIDUpdate" type="hidden" name="id" />
 	    	<input id="invUserIDUpdate" type="hidden" name="invUserID" />
 			<input id="rentalIDUpdate" type="hidden" name="rentalID"  />
-			<input id="inDateUpdate" type="hidden" name="inDate"  />
-			<input id="outDateUpdate" type="hidden" name="outDate"  />
+			<input id="inOutUpdate" type="hidden" name="inOut"  />
+			<input id="dateUpdate" type="hidden" name="date"  />
 			<input id="customerUpdate" type="hidden" name="customer"  />
     	</form>
     </div>
