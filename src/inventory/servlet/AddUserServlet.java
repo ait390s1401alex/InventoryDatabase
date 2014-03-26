@@ -29,7 +29,13 @@ public class AddUserServlet extends HttpServlet {
 		String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
         String isAdmin = req.getParameter("isAdmin");
+        if(isAdmin == null){
+        	isAdmin = "false";
+        }
         String isStandardUser = req.getParameter("isStandardUser");
+        if(isStandardUser == null){
+        	isStandardUser = "false";
+        }
         
         InvUser.createInvUser(loginID, firstName, lastName, isAdmin, isStandardUser);
         
