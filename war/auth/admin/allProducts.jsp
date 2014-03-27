@@ -32,15 +32,21 @@
 
   <head>
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+    <style type="text/css" title="currentStyle">
+    	@import "/DataTables/media/css/demo_table.css";
+	</style>
     
     <title>Economy Party Supplies - Admin - Products</title>
     
     
     
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/DataTables/media/js/jquery.js"></script>
+		<script type="text/javascript" charset="utf-8" src="/DataTables/media/js/jquery.dataTables.js"></script>
     
     <script>
-	
+    
+    
 
     function editButton(ID) {
     	document.getElementById("view"+ID).style.display = "none";
@@ -68,6 +74,11 @@
     	document.forms["finalSubmit"].submit();
     }
     
+    
+    $(document).ready( function () {
+        $("#allproducts").dataTable();
+    } );
+    
     </script>
     
   </head>
@@ -75,6 +86,8 @@
   	
 
   <body>
+  
+  
   
   
   	<a href="admin.jsp">return to admin main</a>
@@ -106,17 +119,19 @@
 	%>
 	<h1>All Products</h1>
 	
-	<table border="1">
+	<table border="1" id="allproducts">
+	<thread>
 		<tr>
-			<td>Product</td>
-			<td>Quantity</td>
-			<td>Purchase Price</td>
-			<td>Sales Price</td>
-			<td>Min Quantity</td>
-			<td>Max Quantity</td>
-			<td>Edit</td>
-			<td>Deleted Product</td>
+			<th>Product</th>
+			<th>Quantity</th>
+			<th>Purchase Price</th>
+			<th>Sales Price</th>
+			<th>Min Quantity</th>
+			<th>Max Quantity</th>
+			<th>Edit</th>
+			<th>Deleted Product</th>
 		</tr>
+	</thread>
 		<%
 		for (Entity product : allProducts) {
 			String productName = Product.getName(product);
@@ -127,7 +142,7 @@
 			String maxQuantity = Product.getMaxQuantity(product);
 			String id = Product.getStringID(product);
 		%>
-
+	<tbody>
 		<tr id="view<%=id%>">
 			<td><%=productName%></td>
 			<td><%=quantity%></td>
@@ -155,13 +170,17 @@
 
 		}
 		%>
-
+	</tbody>
 	</table>
 	
 	
 	<hr />
     <form action="addProduct" method="post">
     <table>
+    <thread>
+    	<th>item</th><th>date</th>
+    </thread>
+    <tboby>
     	<tr>
     		<td>Product Name: </td><td><input type="text" name="productName" size="50" /></td>
     	</tr>
@@ -180,6 +199,7 @@
     	<tr>
 	    		<td>Max Quantity Defined: </td><td><input type="text" name="maxQuantity" size="50" /></td>
     	</tr>
+    	</tboby>
      </table>
       <div><input type="submit" value="Add Product" /></div>
     </form>
@@ -196,6 +216,9 @@
 			<input id="maxQuantityUpdate" type="hidden" name="maxQuantity"  />
     	</form>
     </div>
+    
+    
+    
 
   </body>
 </html>
