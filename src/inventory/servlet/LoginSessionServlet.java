@@ -28,8 +28,6 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
-import inventory.db.InvUser;
-
 @SuppressWarnings("serial")
 public class LoginSessionServlet extends HttpServlet {
 
@@ -40,17 +38,12 @@ public class LoginSessionServlet extends HttpServlet {
         User user = userService.getCurrentUser(); // or req.getUserPrincipal()
         
         HttpSession session = req.getSession();
-                
+        
         synchronized (session) {
 			if (user == null) {
 				resp.sendRedirect("/error.html");
 			}else{
 				session.setAttribute("user", user.getUserId());
-				if(InvUser.getIsAdmin(InvUser.getInvUserWithLoginID(user.getNickname())).equals("true")){
-					session.setAttribute("isAdmin", "true");
-				}else{
-					session.setAttribute("isAdmin", "false");
-				}
 				resp.sendRedirect("/index.jsp");
 			}
 
