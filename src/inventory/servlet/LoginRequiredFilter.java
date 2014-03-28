@@ -56,7 +56,9 @@ public class LoginRequiredFilter implements Filter {
          if (!userService.isUserLoggedIn()) {
              ((HttpServletResponse) resp).sendRedirect("/index.jsp");
          }else{
-         	if(session.getAttribute("user")==null | !session.getAttribute("user").equals(user.getUserId())){
+         	if(session.getAttribute("user")==null){
+         		((HttpServletResponse) resp).sendRedirect("/index.jsp");
+         	}else if(!session.getAttribute("user").equals(user.getUserId())){
          		((HttpServletResponse) resp).sendRedirect("/index.jsp");
          	}else{
          		filterChain.doFilter(req, resp);

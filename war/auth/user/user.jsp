@@ -34,7 +34,27 @@
     <h1>Economy Party Supplies</h1>
     
   	<a href="/index.jsp">home</a>
-    
-
+  	
+  	<hr/>
+  	<h1>Inventory Management</h1>
+  	
+  	<p>Select a report to process.</p>
+  	<form action="generateReport" method="port">
+  	<select name="reports">
+	  <option value="">Out of Stock List</option>
+	  <option value="">TBD</option>
+	  <option value="">TBD</option>
+	  <option value="">TBD</option>
+	</select>
+	<input type="submit" name="Select"></input>
+	</form>
+	
+	<p><a href="inventory.jsp">Inventory Management</a>
+  	
+  	<hr/>
+    <h1>Costume Rental Tracking</h1>
+	
+	<p><a href="rental.jsp">Rental tracking</a></p>
+	
   </body>
 </html>

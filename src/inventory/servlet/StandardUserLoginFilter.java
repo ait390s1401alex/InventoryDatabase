@@ -33,7 +33,7 @@ import inventory.db.InvUser;
  * The Filter to check and redirect parking spot administrative login.
  *
  */
-public class AdminLoginFilter implements Filter {
+public class StandardUserLoginFilter implements Filter {
   
 	/**
 	 * The filter configuration.
@@ -42,7 +42,7 @@ public class AdminLoginFilter implements Filter {
     
 
     /**
-     * Process the filter request. If an admin is not logged redirect the request to the login page.
+     * Process the filter request. If an admin or standard user is not logged redirect the request to the login page.
      * If the user has no rights for the operation report invalid access. 
      */
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain) throws IOException, ServletException {
@@ -57,9 +57,9 @@ public class AdminLoginFilter implements Filter {
          if (!userService.isUserLoggedIn()) {
              ((HttpServletResponse) resp).sendRedirect("/index.jsp");
          }else{
-         	if(session.getAttribute("user")==null | session.getAttribute("isAdmin")==null){
+         	if(session.getAttribute("user")==null | session.getAttribute("isAdmin")==null | session.getAttribute("isStandardUser")==null){
          		((HttpServletResponse) resp).sendRedirect("/accessdenied.html");
-         	}else if(!session.getAttribute("isAdmin").equals("true")){
+         	}else if(!session.getAttribute("isAdmin").equals("true") | !session.getAttribute("isStandardUser").equals("true")){
          		((HttpServletResponse) resp).sendRedirect("/accessdenied.html");
          	}else{
          		filterChain.doFilter(req, resp);
