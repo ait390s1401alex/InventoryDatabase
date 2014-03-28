@@ -59,16 +59,20 @@ public class StandardUserLoginFilter implements Filter {
          }else{
          	if(session.getAttribute("user")==null | session.getAttribute("isAdmin")==null | session.getAttribute("isStandardUser")==null){
          		((HttpServletResponse) resp).sendRedirect("/accessdenied.html");
-         	}else if(!session.getAttribute("isAdmin").equals("true") | !session.getAttribute("isStandardUser").equals("true")){
-         		((HttpServletResponse) resp).sendRedirect("/accessdenied.html");
-         	}else{
-         		filterChain.doFilter(req, resp);
+         	}else if(!session.getAttribute("isStandardUser").equals("true")){
+         		if(!session.getAttribute("isAdminUser").equals("true")){
+         			((HttpServletResponse) resp).sendRedirect("/accessdenied.html");
+         		}
          	}
+
+         	}
+         	filterChain.doFilter(req, resp);
+         	
              
          }
          	
          
-     }
+     
      
     	
 
