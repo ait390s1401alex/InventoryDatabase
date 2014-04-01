@@ -44,29 +44,18 @@
 	
 
     function editButton(ID) {
-    	document.getElementById("view"+ID).style.display = "none";
-    	document.getElementById("edit"+ID).style.display = "";
-    	document.getElementById("transaction"+ID).style.display = "";
+    	$("#rentalIDUpdate").val(ID);
+    	$("#isRentedUpdate").val($("#isRented"+ID).val());
+    	document.getElementById("customerpopup").style.display = "";
     }
     
     function cancelButton(ID) {
-    	document.getElementById("view"+ID).style.display = "";
-    	document.getElementById("edit"+ID).style.display = "none";
-    	document.getElementById("transaction"+ID).style.display = "none";
+    	document.getElementById("customerpopup").style.display = "none";
     }
     
-    function deleteButton(ID) {
-    	window.location = 'deleteRental?id=' + ID;
-    }
     
-    function saveButton(ID) {
-    	$("#savebutton"+ID).attr("disabled", "disabled");
-    	$("#rentalIDUpdate").val(ID);
-    	$("#nameUpdate").val($("#name"+ID).val());
-    	$("#descriptionUpdate").val($("#description"+ID).val());
-    	$("#priceUpdate").val($("#price"+ID).val());
-    	$("#isRentedUpdate").val($("#isRented"+ID).val());
-    	$("#customerUpdate").val($("#customer"+ID).val());
+    function saveButton() {
+    	document.getElementById("customerpopup").style.display = "none";
     	document.forms["finalSubmit"].submit();
     }
     
@@ -135,23 +124,8 @@
 					<td><%=name%></td>
 					<td><%=description%></td>
 					<td><%=price%> per day</td>
-					<td><%=isRented%></td>
+					<td><%=isRented%><input id="isRented<%=id%>" type="hidden" name="isRented" value="<%=isRented%>" /></td>
 					<td><button type="button" onclick="editButton(<%=id%>)">Return</button></td>
-				</tr>
-				
-				<tr id="edit<%=id%>" style="display: none">
-						<td><input id="name<%=id%>" type="text" name="name" value="<%=name%>" size="20" disabled="disabled" /></td>
-						<td><input id="description<%=id%>" type="text" name="description" value="<%=description%>" size="20" disabled="disabled" /></td>
-						<td><input id="price<%=id%>" type="text" name="price" value="<%=price%>" size="20" disabled="disabled" /></td>
-						<td><input id="isRented<%=id%>" type="text" name="isRented" value="<%=isRented%>" size="20" disabled="disabled" /></td>
-						<td> </td>
-				</tr>
-				<tr id="transaction<%=id %>" style="display: none">
-						<td>Customer Name:</td>
-						<td><input id="customer<%=id%>" type="text" name="customer" size="20"  /></td>
-						<td> </td>
-						<td> </td>
-						<td><button type="button" onclick="cancelButton(<%=id%>)">cancel</button><button type="button" id="savebutton<%=id%>" onclick="saveButton(<%=id%>)">save</button></td>
 				</tr>
 				
 				<%
@@ -165,23 +139,8 @@
 					<td><%=name%></td>
 					<td><%=description%></td>
 					<td><%=price%> per day</td>
-					<td><%=isRented%></td>
+					<td><%=isRented%><input id="isRented<%=id%>" type="hidden" name="isRented" value="<%=isRented%>" /></td>
 					<td><button type="button" onclick="editButton(<%=id%>)">Rent</button></td>
-				</tr>
-				
-				<tr id="edit<%=id%>" style="display: none">
-						<td><input id="name<%=id%>" type="text" name="name" value="<%=name%>" size="20" disabled="disabled" /></td>
-						<td><input id="description<%=id%>" type="text" name="description" value="<%=description%>" size="20" disabled="disabled" /></td>
-						<td><input id="price<%=id%>" type="text" name="price" value="<%=price%>" size="20" disabled="disabled" /></td>
-						<td><input id="isRented<%=id%>" type="text" name="isRented" value="<%=isRented%>" size="20" disabled="disabled" /></td>
-						<td> </td>
-				</tr>
-				<tr id="transaction<%=id %>" style="display: none">
-						<td>Customer Name:</td>
-						<td><input id="customer<%=id%>" type="text" name="customer" size="20"  /></td>
-						<td> </td>
-						<td> </td>
-						<td><button type="button" onclick="cancelButton(<%=id%>)">cancel</button><button type="button" id="savebutton<%=id%>" onclick="saveButton(<%=id%>)">save</button></td>
 				</tr>
 				
 				<%
@@ -200,16 +159,20 @@
 	
 	
 	<hr />
+	
+	
     
-    
-    <div>
+    <div id="customerpopup" style="background-color:white; text-align:center; display:none; position: fixed;top: 20%;z-index: 2;">
     	<form id="finalSubmit" action="rentTransaction" method="post">
     		<input id="rentalIDUpdate" type="hidden" name="id" />
 			<input id="isRentedUpdate" type="hidden" name="isRented"  />
-			<input id="customerUpdate" type="hidden" name="customer"  />
 			<input type="hidden" name="invUserID" value="<%=userID %>" />
+			Customer Information: <input type="text" name="customer" size="20"  />
+			<button type="button" onclick="saveButton()">save</button>
+			<button type="button" onclick="cancelButton()">cancel</button>
     	</form>
     </div>
+    
     
     <%
     }

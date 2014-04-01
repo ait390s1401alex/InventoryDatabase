@@ -180,8 +180,16 @@ public class Rental {
 	 * @param rental The GAE Entity storing the isRented
 	 * 
 	 */
-	public static void setIsRented(Entity rental, String isRented) {
+	public static boolean setIsRented(String rentalID, String isRented) {
+		Entity rental = getRental(rentalID);
+		try {
 			rental.setProperty(ISRENTED_PROPERTY, isRented);
+			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+			datastore.put(rental);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
 
 	

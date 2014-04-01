@@ -46,10 +46,10 @@ public class AddRentalTransactionServlet extends HttpServlet {
         	
         	if(isRented.equals("true")){
         		inOut = "In";
-        		Rental.setIsRented(Rental.getRental(rentalID), "false");
-        	}else{
+        		Rental.setIsRented(rentalID, "false");
+        	}else if(isRented.equals("false")){
         		inOut = "Out";
-        		Rental.setIsRented(Rental.getRental(rentalID), "true");
+        		Rental.setIsRented(rentalID, "true");
         	}
         	RentTransaction.createRentTransaction(invUserID, rentalID, inOut, customer);
         	resp.sendRedirect("rental.jsp");
