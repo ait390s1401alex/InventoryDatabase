@@ -10,6 +10,7 @@
 package inventory.servlet;
 
 import inventory.db.RentTransaction;
+import inventory.db.Rental;
 
 import javax.servlet.http.*;
 import javax.servlet.ServletException;
@@ -25,14 +26,37 @@ public class AddRentalTransactionServlet extends HttpServlet {
 	
 		
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String invUserID = req.getParameter("invUserID");
-        String rentalID = req.getParameter("rentalID");
-        String inOut = req.getParameter("inOut");
-        String date = req.getParameter("date");
-        String customer = req.getParameter("customer");
-        
-        RentTransaction.createRentTransaction(invUserID, rentalID, inOut, date, customer);
-        resp.sendRedirect("allRentalTransactions.jsp");
+		
+		if(req.getRequestURI().equals("/auth/admin/addRentalTransaction")){
+			String invUserID = req.getParameter("invUserID");
+	        String rentalID = req.getParameter("rentalID");
+	        String inOut = req.getParameter("inOut");
+	        String date = req.getParameter("date");
+	        String customer = req.getParameter("customer");
+	        
+	        RentTransaction.createRentTransaction(invUserID, rentalID, inOut, date, customer);
+	        resp.sendRedirect("allRentalTransactions.jsp");
+	        
+        }else if(req.getRequestURI().equals("/auth/user/rentTransaction")){
+        	String rentalID = req.getParameter("id");
+        	String invUserID = req.getParameter("invUserID");
+        	String isRented = req.getParameter("isRented");
+        	String customer = req.getParameter("customer");
+        	String inOut = " ";
+        	
+        	if(isRented.equals("true")){
+        		inOut = "In";
+        		Rental.setIsRented(Rental.getRental(rentalID), "false");
+        	}else{
+        		inOut = "Out";
+        		Rental.setIsRented(Rental.getRental(rentalID), "true");
+        	}
+        	RentTransaction.createRentTransaction(invUserID, rentalID, inOut, customer);
+        	resp.sendRedirect("rental.jsp");
+        }
+		
+		
+
 	}
 
 

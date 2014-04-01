@@ -111,7 +111,7 @@
 			<td>Rental Price</td>
 			<td>isRented</td>
 			<td>Edit</td>
-			<td>Deleted Product</td>
+			<td>Delete Product</td>
 		</tr>
 		<%
 		for (Entity rental : allRentals) {

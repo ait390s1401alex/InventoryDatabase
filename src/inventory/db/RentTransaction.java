@@ -226,6 +226,45 @@ public class RentTransaction {
 
 		return rentTransaction;
 	}
+	
+	
+	
+	/**
+	 * Create a new renttransaction if the rentTransactionID is correct and none exists with this id.
+	 * 
+	 * @param inUserID the inuser that creates the renttransaction
+	 * @param rentalID the rental item that is in the renttransaction
+	 * @param inOut the inOut for this renttransaction
+	 * @param date the date for this renttransaction
+	 * @param customer the customer for this renttransaction
+	 * @return the Entity created with this id or null if error
+	 */
+	public static Entity createRentTransaction(String invUserID, String rentalID, String inOut, String customer) {
+		Entity rentTransaction = null;
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Transaction txn = datastore.beginTransaction();
+		try {
+
+			rentTransaction = new Entity(ENTITY_KIND);
+			rentTransaction.setProperty(INV_USERID_PROPERTY, invUserID);
+			rentTransaction.setProperty(RENTALID_PROPERTY, rentalID);
+			rentTransaction.setProperty(INOUT_PROPERTY, inOut);
+			Date date = new Date();
+			rentTransaction.setProperty(DATE_PROPERTY, date.toString());
+			rentTransaction.setProperty(CUSTOMER_PROPERTY, customer);
+			datastore.put(rentTransaction);
+
+			txn.commit();
+		} catch (Exception e) {
+			return null;
+		} finally {
+			if (txn.isActive()) {
+				txn.rollback();
+			}
+		}
+
+		return rentTransaction;
+	}
 
 	//
 	// GET RENTTRANSACTION

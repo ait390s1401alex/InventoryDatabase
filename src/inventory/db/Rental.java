@@ -168,6 +168,21 @@ public class Rental {
 			isRented = "";
 		return (String) isRented;
 	}
+	
+	
+	//
+	// SETTERS
+	//
+	
+	/**
+	 * Set the isRented for the rental.
+	 * 
+	 * @param rental The GAE Entity storing the isRented
+	 * 
+	 */
+	public static void setIsRented(Entity rental, String isRented) {
+			rental.setProperty(ISRENTED_PROPERTY, isRented);
+	}
 
 	
 

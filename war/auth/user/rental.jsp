@@ -11,6 +11,7 @@
 <%@ page import="com.google.appengine.api.datastore.Key" %>
 <%@ page import="com.google.appengine.api.datastore.KeyFactory" %>
 <%@ page import="inventory.db.Rental" %>
+<%@ page import="inventory.db.InvUser" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -86,6 +87,7 @@
     User user = userService.getCurrentUser();
     if (user != null) {
       	pageContext.setAttribute("user", user);
+      	
 	%>
 		<p>Hello, ${fn:escapeXml(user.nickname)}! (You can <a href="/logout">sign out</a>.)</p>
 	<%
@@ -104,6 +106,8 @@
 	<h1>No Rental Items Entered</h1>
 	<%
 		}else{	
+			
+			String userID = InvUser.getStringID(InvUser.getInvUserWithLoginID(user.getNickname()));
 	%>
 	<h1>All Rentals</h1>
 	
@@ -114,7 +118,6 @@
 			<td>Rental Price</td>
 			<td>isRented</td>
 			<td>Edit</td>
-			<td>Deleted Product</td>
 		</tr>
 		<%
 		for (Entity rental : allRentals) {
@@ -137,10 +140,17 @@
 				</tr>
 				
 				<tr id="edit<%=id%>" style="display: none">
-						<td><input id="name<%=id%>" type="text" name="name" value="<%=name%>" size="20"/></td>
-						<td><input id="description<%=id%>" type="text" name="description" value="<%=description%>" size="20" /></td>
-						<td><input id="price<%=id%>" type="text" name="price" value="<%=price%>" size="20" /></td>
-						<td><input id="isRented<%=id%>" type="text" name="isRented" value="<%=isRented%>" size="20" /></td>
+						<td><input id="name<%=id%>" type="text" name="name" value="<%=name%>" size="20" disabled="disabled" /></td>
+						<td><input id="description<%=id%>" type="text" name="description" value="<%=description%>" size="20" disabled="disabled" /></td>
+						<td><input id="price<%=id%>" type="text" name="price" value="<%=price%>" size="20" disabled="disabled" /></td>
+						<td><input id="isRented<%=id%>" type="text" name="isRented" value="<%=isRented%>" size="20" disabled="disabled" /></td>
+						<td> </td>
+				</tr>
+				<tr id="transaction<%=id %>" style="display: none">
+						<td>Customer Name:</td>
+						<td><input id="customer<%=id%>" type="text" name="customer" size="20"  /></td>
+						<td> </td>
+						<td> </td>
 						<td><button type="button" onclick="cancelButton(<%=id%>)">cancel</button><button type="button" id="savebutton<%=id%>" onclick="saveButton(<%=id%>)">save</button></td>
 				</tr>
 				
@@ -179,10 +189,12 @@
 				
 			}
 
-			}
 
-		}
+			}
+		
 		%>
+
+
 
 	</table>
 	
@@ -193,13 +205,17 @@
     <div>
     	<form id="finalSubmit" action="rentTransaction" method="post">
     		<input id="rentalIDUpdate" type="hidden" name="id" />
-	    	<input id="nameUpdate" type="hidden" name="name" />
-	    	<input id="descriptionUpdate" type="hidden" name="description" />
-			<input id="priceUpdate" type="hidden" name="price"  />
 			<input id="isRentedUpdate" type="hidden" name="isRented"  />
 			<input id="customerUpdate" type="hidden" name="customer"  />
+			<input type="hidden" name="invUserID" value="<%=userID %>" />
     	</form>
     </div>
+    
+    <%
+    }
+	%>
+    
+
 
   </body>
 </html>
