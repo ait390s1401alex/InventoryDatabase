@@ -52,9 +52,8 @@
 				    UserService userService = UserServiceFactory.getUserService();
 				    User user = userService.getCurrentUser();
 				    if (user != null) {
-				      	pageContext.setAttribute("user", user);
 					%>
-						<jsp:forward page="home.jsp" />					
+						<jsp:forward page="/home.jsp" />					
 					<%
 						Entity invUser = InvUser.getInvUserWithLoginID(user.getNickname());
 					

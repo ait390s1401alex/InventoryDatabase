@@ -68,37 +68,34 @@
 				    if (user != null) {
 				    	Entity invUser = InvUser.getInvUserWithLoginID(user.getNickname());
 				      	pageContext.setAttribute("user", user);
-					%>
-						<div class="top" style="float:left">
-							<a href="/home.jsp">HOME</a> | 
-							<a href="/auth/user/rental.jsp">RENTAL</a> | 
-							<a href="/auth/user/inventory.jsp">INVENTORY</a> | 
-							<a href="/auth/admin/admin.jsp">ADMIN</a>
-						</div>
-						<div class="top" id="menudrop" style="float:right"><a href="#" onmouseover="popup();" onmouseout="popoff();"><%=InvUser.getFirstName(invUser)%> <%=InvUser.getLastName(invUser)%></a></div>
-						<div id="popup" class="popup" onmouseover="popup();" onmouseout="popoff();" style="display:none">
-						<ul>
-							<li><a href="editProfile.jsp" >PROFILE</a></li>
-							<li><a href="/logout" onmouseover="popup();">LOGOUT</a></li>
-						</ul>
-						</div>
-						<br />
-						<br />
-						
-					
-					<%
 	 
     
     if(invUser == null){
     	%>
+    	<div class="top" style="float:left">
+			<a href="/home.jsp">HOME</a> | 
+			<a href="/auth/user/rental.jsp">RENTAL</a> | 
+			<a href="/auth/user/inventory.jsp">INVENTORY</a> | 
+			<a href="/auth/admin/admin.jsp">ADMIN</a>
+		</div>
+		<div class="top" id="menudrop" style="float:right"><a href="#" onmouseover="popup();" onmouseout="popoff();"><%=user.getNickname()%></a></div>
+		<div id="popup" class="popup" onmouseover="popup();" onmouseout="popoff();" style="display:none">
+		<ul>
+			<li><a href="editProfile.jsp" >PROFILE</a></li>
+			<li><a href="/logout" onmouseover="popup();">LOGOUT</a></li>
+		</ul>
+		</div>
+		<br />
+		<br />
+						
     	<h2>Welcome <%=user.getNickname() %>! Please enter some basic information.</h2>
 		<form action="addUser" method="post">
 			<table >
 				<tr>
-					<td>First Name: </td><td><input type="text" name="firstName" length="30"  /></td>
+					<td>First Name: </td><td><input type="text" name="firstName" size="30"  required /></td>
 				</tr>
 				<tr>
-					<td>Last Name: </td><td><input type="text" name="lastName" length="30" /></td>
+					<td>Last Name: </td><td><input type="text" name="lastName" size="30" required /></td>
 				</tr>
 				
 			</table>
@@ -111,14 +108,30 @@
     	
     	
     	%>
+    	<div class="top" style="float:left">
+			<a href="/home.jsp">HOME</a> | 
+			<a href="/auth/user/rental.jsp">RENTAL</a> | 
+			<a href="/auth/user/inventory.jsp">INVENTORY</a> | 
+			<a href="/auth/admin/admin.jsp">ADMIN</a>
+		</div>
+		<div class="top" id="menudrop" style="float:right"><a href="#" onmouseover="popup();" onmouseout="popoff();"><%=InvUser.getFirstName(invUser)%> <%=InvUser.getLastName(invUser)%></a></div>
+		<div id="popup" class="popup" onmouseover="popup();" onmouseout="popoff();" style="display:none">
+		<ul>
+			<li><a href="editProfile.jsp" >PROFILE</a></li>
+			<li><a href="/logout" onmouseover="popup();">LOGOUT</a></li>
+		</ul>
+		</div>
+		<br />
+		<br />
+						
 		<h2>Welcome <%=InvUser.getFirstName(invUser) %>! Edit your profile below!</h2>
 		<form action="updateUser" method="post">
 			<table>
 				<tr>
-					<td>First Name: </td><td><input type="text" name="firstName" length="30" value="<%=InvUser.getFirstName(invUser) %>" /></td>
+					<td>First Name: </td><td><input type="text" name="firstName" size="30" value="<%=InvUser.getFirstName(invUser)%>" required /></td>
 				</tr>
 				<tr>
-					<td>Last Name: </td><td><input type="text" name="lastName" length="30" value="<%=InvUser.getLastName(invUser) %>" /></td>
+					<td>Last Name: </td><td><input type="text" name="lastName" size="30" value="<%=InvUser.getLastName(invUser) %>" required /></td>
 				</tr>
 				
 				

@@ -71,7 +71,11 @@
 				    User user = userService.getCurrentUser();
 				    if (user != null) {
 				    	Entity invUser = InvUser.getInvUserWithLoginID(user.getNickname());
-				      	pageContext.setAttribute("user", user);
+				    	if(invUser == null){
+							%>
+							<jsp:forward page="/editProfile.jsp" />
+							<%
+						}else{
 					%>
 						<div class="top" style="float:left">
 							<a href="/home.jsp">HOME</a> | 
@@ -87,16 +91,7 @@
 						</ul>
 						</div>
 						
-					
-					<%
 						
-					
-						if(invUser == null){
-							%>
-							<jsp:forward page="editProfile.jsp" />
-							<%
-						}else{
-							%>
 							<div id="main">
 					<table>
 				  		<tr>
