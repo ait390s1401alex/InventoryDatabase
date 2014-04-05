@@ -11,6 +11,7 @@
 <%@ page import="com.google.appengine.api.datastore.Key" %>
 <%@ page import="com.google.appengine.api.datastore.KeyFactory" %>
 <%@ page import="inventory.db.Rental" %>
+<%@ page import="inventory.db.InvUser" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -38,6 +39,8 @@
     
     
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/DataTables/media/js/jquery.js"></script>
+		<script type="text/javascript" charset="utf-8" src="/DataTables/media/js/jquery.dataTables.js"></script>
     
     <script>
 	
@@ -66,6 +69,25 @@
     	document.forms["finalSubmit"].submit();
     }
     
+    function popup(){
+    	var pos = $("#menudrop").position();
+    	var wid = $("#menudrop").width();
+    	$("#popup").css({
+            position: "absolute",
+            top: (pos.top + 15) + "px",
+            left: pos.left + "px",
+            width: wid + "px"
+        }).show();
+    	document.getElementById("popup").style.display = "";
+    }
+    function popoff(){
+    	document.getElementById("popup").style.display = "none";
+    }
+    
+    $(document).ready( function () {
+        $("#maintable").dataTable();
+    } );
+    
     </script>
     
   </head>
@@ -73,28 +95,41 @@
   	
 
   <body>
+<div class="topbar"></div>
+  <div class="background">
   
-  
-  	<a href="admin.jsp">return to admin main</a>
-  	<a href="/index.jsp">home</a>
-  
-  <%
-    UserService userService = UserServiceFactory.getUserService();
-    User user = userService.getCurrentUser();
-    if (user != null) {
-      	pageContext.setAttribute("user", user);
-	%>
-		<p>Hello, ${fn:escapeXml(user.nickname)}! (You can <a href="/logout">sign out</a>.)</p>
-	<%
+	  
+	  			    <%
+				    UserService userService = UserServiceFactory.getUserService();
+				    User user = userService.getCurrentUser();
+				    if (user != null) {
+				    	Entity invUser = InvUser.getInvUserWithLoginID(user.getNickname());
+				      	pageContext.setAttribute("user", user);
+					%>
+						<div class="top" style="float:left">
+							<a href="/home.jsp">HOME</a> | 
+							<a href="/auth/user/rental.jsp">RENTAL</a> | 
+							<a href="/auth/user/inventory.jsp">INVENTORY</a> | 
+							<a href="/auth/admin/admin.jsp">ADMIN</a>
+						</div>
+						<div class="top" id="menudrop" style="float:right"><a href="#" onmouseover="popup();" onmouseout="popoff();"><%=InvUser.getFirstName(invUser)%> <%=InvUser.getLastName(invUser)%></a></div>
+						<div id="popup" class="popup" onmouseover="popup();" onmouseout="popoff();" style="display:none">
+						<ul>
+							<li><a href="editProfile.jsp" >PROFILE</a></li>
+							<li><a href="/logout" onmouseover="popup();">LOGOUT</a></li>
+						</ul>
+						</div>
+						<br />
+						<br />
+						
+					
+					<%
 	    } else {
-	%>
-		<c:redirect url="/index.jsp" />
-	<%
-	    }
-	%>
-  
-  
-	<%
+	    	%>
+			<jsp:forward page="/index.jsp" />
+		<%
+		    }
+
 		List<Entity> allRentals = Rental.getFirstRentals(100);
 		if (allRentals.isEmpty()) {
 	%>
@@ -104,15 +139,18 @@
 	%>
 	<h1>All Rentals</h1>
 	
-	<table border="1">
+	<table id="maintable" border="1">
+	<thead>
 		<tr>
-			<td>Item Name</td>
-			<td>Description</td>
-			<td>Rental Price</td>
-			<td>isRented</td>
-			<td>Edit</td>
-			<td>Delete Product</td>
+			<th>Item Name</th>
+			<th>Description</th>
+			<th>Rental Price</th>
+			<th>isRented</th>
+			<th>Edit</th>
+			<th>Delete Product</th>
 		</tr>
+		</thead>
+		<tbody>
 		<%
 		for (Entity rental : allRentals) {
 			String name = Rental.getName(rental);
@@ -145,7 +183,7 @@
 
 		}
 		%>
-
+	</tbody>
 	</table>
 	
 	
@@ -178,6 +216,6 @@
 			<input id="isRentedUpdate" type="hidden" name="isRented"  />
     	</form>
     </div>
-
+	</div>
   </body>
 </html>

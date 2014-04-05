@@ -11,6 +11,7 @@
 <%@ page import="com.google.appengine.api.datastore.Key" %>
 <%@ page import="com.google.appengine.api.datastore.KeyFactory" %>
 <%@ page import="inventory.db.Product" %>
+<%@ page import="inventory.db.InvUser" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -32,9 +33,6 @@
 
   <head>
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
-    <style type="text/css" title="currentStyle">
-    	@import "/DataTables/media/css/demo_table.css";
-	</style>
     
     <title>Economy Party Supplies - Admin - Products</title>
     
@@ -74,6 +72,21 @@
     	document.forms["finalSubmit"].submit();
     }
     
+    function popup(){
+    	var pos = $("#menudrop").position();
+    	var wid = $("#menudrop").width();
+    	$("#popup").css({
+            position: "absolute",
+            top: (pos.top + 15) + "px",
+            left: pos.left + "px",
+            width: wid + "px"
+        }).show();
+    	document.getElementById("popup").style.display = "";
+    }
+    function popoff(){
+    	document.getElementById("popup").style.display = "none";
+    }
+    
     
     $(document).ready( function () {
         $("#allproducts").dataTable();
@@ -86,24 +99,38 @@
   	
 
   <body>
+  <div class="topbar"></div>
+  <div class="background">
   
-  
-  
-  
-  	<a href="admin.jsp">return to admin main</a>
-  	<a href="/index.jsp">home</a>
-  
-  <%
-    UserService userService = UserServiceFactory.getUserService();
-    User user = userService.getCurrentUser();
-    if (user != null) {
-      	pageContext.setAttribute("user", user);
-	%>
-		<p>Hello, ${fn:escapeXml(user.nickname)}! (You can <a href="/logout">sign out</a>.)</p>
-	<%
+	  
+	  			    <%
+				    UserService userService = UserServiceFactory.getUserService();
+				    User user = userService.getCurrentUser();
+				    if (user != null) {
+				    	Entity invUser = InvUser.getInvUserWithLoginID(user.getNickname());
+				      	pageContext.setAttribute("user", user);
+					%>
+						<div class="top" style="float:left">
+							<a href="/home.jsp">HOME</a> | 
+							<a href="/auth/user/rental.jsp">RENTAL</a> | 
+							<a href="/auth/user/inventory.jsp">INVENTORY</a> | 
+							<a href="/auth/admin/admin.jsp">ADMIN</a>
+						</div>
+						<div class="top" id="menudrop" style="float:right"><a href="#" onmouseover="popup();" onmouseout="popoff();"><%=InvUser.getFirstName(invUser)%> <%=InvUser.getLastName(invUser)%></a></div>
+						<div id="popup" class="popup" onmouseover="popup();" onmouseout="popoff();" style="display:none">
+						<ul>
+							<li><a href="editProfile.jsp" >PROFILE</a></li>
+							<li><a href="/logout" onmouseover="popup();">LOGOUT</a></li>
+						</ul>
+						</div>
+						<br />
+						<br />
+						
+					
+					<%
 	    } else {
 	    	%>
-			<c:redirect url="/index.jsp" />
+			<jsp:forward page="/index.jsp" />
 		<%
 		    }
 	%>
@@ -118,9 +145,10 @@
 		}else{	
 	%>
 	<h1>All Products</h1>
+	<hr />
 	
 	<table border="1" id="allproducts">
-	<thread>
+	<thead>
 		<tr>
 			<th>Product</th>
 			<th>Quantity</th>
@@ -131,7 +159,8 @@
 			<th>Edit</th>
 			<th>Deleted Product</th>
 		</tr>
-	</thread>
+	</thead>
+	<tbody>
 		<%
 		for (Entity product : allProducts) {
 			String productName = Product.getName(product);
@@ -142,7 +171,6 @@
 			String maxQuantity = Product.getMaxQuantity(product);
 			String id = Product.getStringID(product);
 		%>
-	<tbody>
 		<tr id="view<%=id%>">
 			<td><%=productName%></td>
 			<td><%=quantity%></td>
@@ -219,6 +247,6 @@
     
     
     
-
+</div>
   </body>
 </html>

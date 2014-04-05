@@ -63,6 +63,21 @@
     	document.forms["finalSubmit"].submit();
     }
     
+    function popup(){
+    	var pos = $("#menudrop").position();
+    	var wid = $("#menudrop").width();
+    	$("#popup").css({
+            position: "absolute",
+            top: (pos.top + 15) + "px",
+            left: pos.left + "px",
+            width: wid + "px"
+        }).show();
+    	document.getElementById("popup").style.display = "";
+    }
+    function popoff(){
+    	document.getElementById("popup").style.display = "none";
+    }
+    
     </script>
     
   </head>
@@ -70,25 +85,40 @@
   	
 
   <body>
-  <div class="background" align="center">
-
+  <div class="topbar"></div>
+  <div class="background">
   
-  	<a href="admin.jsp">return to admin main</a>
-  	<a href="/index.jsp">home</a>
-  
-  <%
-    UserService userService = UserServiceFactory.getUserService();
-    User user = userService.getCurrentUser();
-    if (user != null) {
-      	pageContext.setAttribute("user", user);
-	%>
-		<p>Hello, ${fn:escapeXml(user.nickname)}! (You can <a href="/logout">sign out</a>.)</p>
-	<%
-	    }else {
-   	%>
-		<c:redirect url="/index.jsp" />
-	<%
-	    }
+	  
+	  			    <%
+				    UserService userService = UserServiceFactory.getUserService();
+				    User user = userService.getCurrentUser();
+				    if (user != null) {
+				    	Entity invUser = InvUser.getInvUserWithLoginID(user.getNickname());
+				      	pageContext.setAttribute("user", user);
+					%>
+						<div class="top" style="float:left">
+							<a href="/home.jsp">HOME</a> | 
+							<a href="/auth/user/rental.jsp">RENTAL</a> | 
+							<a href="/auth/user/inventory.jsp">INVENTORY</a> | 
+							<a href="/auth/admin/admin.jsp">ADMIN</a>
+						</div>
+						<div class="top" id="menudrop" style="float:right"><a href="#" onmouseover="popup();" onmouseout="popoff();"><%=InvUser.getFirstName(invUser)%> <%=InvUser.getLastName(invUser)%></a></div>
+						<div id="popup" class="popup" onmouseover="popup();" onmouseout="popoff();" style="display:none">
+						<ul>
+							<li><a href="editProfile.jsp" >PROFILE</a></li>
+							<li><a href="/logout" onmouseover="popup();">LOGOUT</a></li>
+						</ul>
+						</div>
+						<br />
+						<br />
+						
+					
+					<%
+	    } else {
+	    	%>
+			<jsp:forward page="/index.jsp" />
+		<%
+		    }
     
 		List<Entity> allUsers = InvUser.getFirstInvUsers(100);
 		if (allUsers.isEmpty()) {
@@ -130,7 +160,7 @@
 		</tr>
 		
 		<tr id="edit<%=invUserID%>" style="display: none">
-				<td><input id="loginID<%=invUserID%>" type="text" name="loginID" value="<%=loginID%>" size="20" disabled="true" /></td>
+				<td><input id="loginID<%=invUserID%>" type="text" name="loginID" value="<%=loginID%>" size="20" disabled="disabled" /></td>
 				<td><input id="firstName<%=invUserID%>" type="text" name="firstName" value="<%=firstName%>" size="20" /></td>
 				<td><input id="lastName<%=invUserID%>" type="text" name="lastName" value="<%=lastName%>" size="20" /></td>
 				<td><input id="isAdmin<%=invUserID%>" type="text" name="isAdmin" value="<%=isAdmin%>" size="20" /></td>

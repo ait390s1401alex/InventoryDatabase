@@ -35,11 +35,12 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-        <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+        <link type="text/css" rel="stylesheet" href="/stylesheets/user.css" />
     <title>Economy Party Supplies - Inventory Management</title>
   </head>
 
   <body>
+  <div class="background">
 	  <table>
 	  		<tr>
 	  			<td><h1>Economy Party Supplies Inventory Management</h1></td>
@@ -53,32 +54,9 @@
 				    if (user != null) {
 				      	pageContext.setAttribute("user", user);
 					%>
-						<p>Welcome, ${fn:escapeXml(user.nickname)}! (You can <a href="/logout">sign out</a>.)</p><p><a href="editProfile.jsp">Edit profile</a></p>
-					
+						<jsp:forward page="home.jsp" />					
 					<%
 						Entity invUser = InvUser.getInvUserWithLoginID(user.getNickname());
-					
-						if(invUser == null){
-							%>
-							<jsp:forward page="editProfile.jsp" />
-							<%
-						}else{
-							%>
-							
-							</td>
-							</tr>
-							<tr>
-							<td><h1>Welcome <%=InvUser.getFirstName(invUser) %>!</h1></td>
-							</tr>
-							<tr>
-							<td>
-								<p><a href="/auth/user/user.jsp">User Portal</a></p>
-								<p><a href="/auth/admin/admin.jsp">Admin Portal</a></p>
-
-							
-							
-							<%
-						}
 					
 					    } else {
 					    	
@@ -102,6 +80,6 @@
 	  </table>
 
     
-
-  </body>
+	</div>
+	</body>
 </html>
