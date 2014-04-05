@@ -83,16 +83,12 @@
 					    } else {
 					    	
 					    	%>
-			    	<p>Sign in with any web account below!</p>
+			    	<p>Sign in below.</p>
 					    	<%
 					    	
 					    	final Map<String, String> openIdProviders;
 					            openIdProviders = new HashMap<String, String>();
 					            openIdProviders.put("Google", "https://www.google.com/accounts/o8/id");
-					            openIdProviders.put("Yahoo", "yahoo.com");
-					            openIdProviders.put("MySpace", "myspace.com");
-					            openIdProviders.put("AOL", "aol.com");
-					            openIdProviders.put("MyOpenId.com", "myopenid.com");
 					    	
 					    	for (String providerName : openIdProviders.keySet()) {
 				                out.println("[<a href=\"/_ah/login_required?provider=" + providerName + "\">" + providerName + "</a>] ");

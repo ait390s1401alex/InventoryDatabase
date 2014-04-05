@@ -13,6 +13,7 @@ import java.util.List;
 
 
 
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -21,6 +22,9 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Transaction;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.FilterOperator;
 
 
 /**
@@ -111,6 +115,11 @@ public class RentTransaction {
 	 */
 	private static final String CUSTOMER_PROPERTY = "Customer";
 	
+	/**
+	 * The property customer for the <b>customer</b> value of the renttransaction.
+	 */
+	private static final String DATEVALUE_PROPERTY = "DateValue";
+	
 	
 	
 	
@@ -184,6 +193,7 @@ public class RentTransaction {
 	}
 	
 	
+	
 
 	
 
@@ -250,6 +260,7 @@ public class RentTransaction {
 			rentTransaction.setProperty(RENTALID_PROPERTY, rentalID);
 			rentTransaction.setProperty(INOUT_PROPERTY, inOut);
 			Date date = new Date();
+			rentTransaction.setProperty(DATEVALUE_PROPERTY, date.getTime());
 			rentTransaction.setProperty(DATE_PROPERTY, date.toString());
 			rentTransaction.setProperty(CUSTOMER_PROPERTY, customer);
 			datastore.put(rentTransaction);
@@ -355,6 +366,25 @@ public class RentTransaction {
 	public static List<Entity> getFirstRentTransactions(int limit) {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query query = new Query(ENTITY_KIND);
+		List<Entity> result = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(limit));
+		return result;
+	}
+	
+	
+	/**
+	 * Return the requested number of renttransactions (e.g. 100).
+	 * 
+	 * @param limit The number of renttransactions to be returned.
+	 * @return A list of GAE {@link Entity entities}.
+	 */
+	public static List<Entity> getRentTransactionsWithOut(int limit) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Query query = new Query(ENTITY_KIND);
+		Filter filter = new FilterPredicate(INOUT_PROPERTY, FilterOperator.EQUAL, "Out");
+		query.addSort(DATEVALUE_PROPERTY, Query.SortDirection.DESCENDING);
+		query.setFilter(filter);
+		//query.addFilter(INOUT_PROPERTY, Query.FilterOperator.EQUAL, "Out");
+		//query.addFilter(propertyName, operator, value)
 		List<Entity> result = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(limit));
 		return result;
 	}

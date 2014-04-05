@@ -12,6 +12,7 @@
 <%@ page import="com.google.appengine.api.datastore.KeyFactory" %>
 <%@ page import="inventory.db.Rental" %>
 <%@ page import="inventory.db.InvUser" %>
+<%@ page import="inventory.db.RentTransaction" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -89,6 +90,7 @@
   
   
 	<%
+		List<Entity> allRentTransactions = RentTransaction.getRentTransactionsWithOut(100);
 		List<Entity> allRentals = Rental.getFirstRentals(100);
 		if (allRentals.isEmpty()) {
 	%>
@@ -102,11 +104,11 @@
 	
 	<table border="1">
 		<tr>
-			<td>Item Name</td>
-			<td>Description</td>
-			<td>Rental Price</td>
-			<td>isRented</td>
-			<td>Edit</td>
+			<th>Item Name</th>
+			<th>Description</th>
+			<th>Rental Price</th>
+			<th>Customer</th>
+			<th>Rent/Return</th>
 		</tr>
 		<%
 		for (Entity rental : allRentals) {
@@ -115,6 +117,13 @@
 			String price = Rental.getPrice(rental);
 			String isRented = Rental.getIsRented(rental);
 			String id = Rental.getStringID(rental);
+			String cust = "";
+			for(Entity rentTrans : allRentTransactions){
+				if((RentTransaction.getRentalID(rentTrans)).equals(id) ){
+					cust = RentTransaction.getCustomer(rentTrans);
+					break;
+				}
+			}
 			
 			if(isRented.equals("true")){
 				
@@ -124,7 +133,7 @@
 					<td><%=name%></td>
 					<td><%=description%></td>
 					<td><%=price%> per day</td>
-					<td><%=isRented%><input id="isRented<%=id%>" type="hidden" name="isRented" value="<%=isRented%>" /></td>
+					<td><%=cust%><input id="isRented<%=id%>" type="hidden" name="isRented" value="<%=isRented%>" /></td>
 					<td><button type="button" onclick="editButton(<%=id%>)">Return</button></td>
 				</tr>
 				
@@ -139,7 +148,7 @@
 					<td><%=name%></td>
 					<td><%=description%></td>
 					<td><%=price%> per day</td>
-					<td><%=isRented%><input id="isRented<%=id%>" type="hidden" name="isRented" value="<%=isRented%>" /></td>
+					<td>-----<input id="isRented<%=id%>" type="hidden" name="isRented" value="<%=isRented%>" /></td>
 					<td><button type="button" onclick="editButton(<%=id%>)">Rent</button></td>
 				</tr>
 				
@@ -167,7 +176,7 @@
     		<input id="rentalIDUpdate" type="hidden" name="id" />
 			<input id="isRentedUpdate" type="hidden" name="isRented"  />
 			<input type="hidden" name="invUserID" value="<%=userID %>" />
-			Customer Information: <input type="text" name="customer" size="20"  />
+			Customer Information: <input type="text" name="customer" size="20" autofocus="autofocus" />
 			<button type="button" onclick="saveButton()">save</button>
 			<button type="button" onclick="cancelButton()">cancel</button>
     	</form>

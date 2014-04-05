@@ -35,7 +35,7 @@ public class DeleteRentalTransactionServlet extends HttpServlet {
 	    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 			String id = req.getParameter("id");
 	        RentTransaction.deleteRentTransaction(id);
-	        resp.sendRedirect("allRentTransactions.jsp");
+	        resp.sendRedirect("allRentalTransactions.jsp");
 			
 	    }
 
