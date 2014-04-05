@@ -10,9 +10,8 @@
 <%@ page import="com.google.appengine.api.datastore.FetchOptions" %>
 <%@ page import="com.google.appengine.api.datastore.Key" %>
 <%@ page import="com.google.appengine.api.datastore.KeyFactory" %>
-<%@ page import="inventory.db.Rental" %>
+<%@ page import="inventory.db.Product" %>
 <%@ page import="inventory.db.InvUser" %>
-<%@ page import="inventory.db.RentTransaction" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -35,7 +34,7 @@
   <head>
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
     
-    <title>Economy Party Supplies - Rental Items</title>
+    <title>Economy Party Supplies - Inventory</title>
     
     
     
@@ -47,19 +46,24 @@
 	
 
     function editButton(ID) {
-    	$("#rentalIDUpdate").val(ID);
-    	$("#isRentedUpdate").val($("#isRented"+ID).val());
-    	document.getElementById("customerpopup").style.display = "";
+    	$("#productIDUpdate").val(ID);
+    	document.getElementById("updatepopup").style.display = "";
     }
     
     function cancelButton(ID) {
-    	document.getElementById("customerpopup").style.display = "none";
+    	document.getElementById("updatepopup").style.display = "none";
     }
     
     
     function saveButton() {
-    	document.getElementById("customerpopup").style.display = "none";
-    	document.forms["finalSubmit"].submit();
+    	var intRegex = /^\d+$/;
+    	document.getElementById("updatepopup").style.display = "none";
+    	if(intRegex.test($("#newQuant"))) {
+    		alert('Invalid entry. Please only enter a non negative integer.');
+    	}else{
+    		document.forms["finalSubmit"].submit();
+    	}
+    	
     }
     
     $(document).ready(function() {
@@ -96,75 +100,52 @@
   
   
 	<%
-		List<Entity> allRentTransactions = RentTransaction.getRentTransactionsWithOut(100);
-		List<Entity> allRentals = Rental.getFirstRentals(100);
-		if (allRentals.isEmpty()) {
+		List<Entity> allProducts = Product.getFirstProducts(100);
+		if (allProducts.isEmpty()) {
 	%>
-	<h1>No Rental Items Entered</h1>
+	<h1>No Products in DB</h1>
 	<%
 		}else{	
 			
 			String userID = InvUser.getStringID(InvUser.getInvUserWithLoginID(user.getNickname()));
 	%>
-	<h1>All Rentals</h1>
+	<h1>All Products</h1>
 	
 	<table id="maintable" border="1">
 	<thead>
 		<tr>
-			<th>Item Name</th>
-			<th>Description</th>
-			<th>Rental Price</th>
-			<th>Customer</th>
-			<th>Rent/Return</th>
+			<th>Name</th>
+			<th>Min Quantity</th>
+			<th>Max Quantity</th>
+			<th>Current Quantity</th>
+			<th>Edit</th>
 		</tr>
-		</thead>
-		<tbody>
+	</thead>
+	<tbody>
 		<%
-		for (Entity rental : allRentals) {
-			String name = Rental.getName(rental);
-			String description = Rental.getDescription(rental);
-			String price = Rental.getPrice(rental);
-			String isRented = Rental.getIsRented(rental);
-			String id = Rental.getStringID(rental);
-			String cust = "";
-			for(Entity rentTrans : allRentTransactions){
-				if((RentTransaction.getRentalID(rentTrans)).equals(id) ){
-					cust = RentTransaction.getCustomer(rentTrans);
-					break;
-				}
-			}
+		for (Entity product : allProducts) {
+			String name = Product.getName(product);
+			String minQuant = Product.getMinQuantity(product);
+			String maxQuant = Product.getMaxQuantity(product);
+			String quantity = Product.getQuantity(product);
+			String id = Product.getStringID(product);
 			
-			if(isRented.equals("true")){
 				
 				%>
+				
 
 				<tr id="view<%=id%>">
 					<td><%=name%></td>
-					<td><%=description%></td>
-					<td><%=price%> per day</td>
-					<td><%=cust%><input id="isRented<%=id%>" type="hidden" name="isRented" value="<%=isRented%>" /></td>
-					<td><button type="button" onclick="editButton(<%=id%>)">Return</button></td>
+					<td><%=minQuant%></td>
+					<td><%=maxQuant%></td>
+					<td><%=quantity%></td>
+					<td><button type="button" onclick="editButton(<%=id%>)">Update</button></td>
 				</tr>
 				
 				<%
 				
 				
-			}else{
-				
-				%>
-
-				<tr id="view<%=id%>">
-					<td><%=name%></td>
-					<td><%=description%></td>
-					<td><%=price%> per day</td>
-					<td>-----<input id="isRented<%=id%>" type="hidden" name="isRented" value="<%=isRented%>" /></td>
-					<td><button type="button" onclick="editButton(<%=id%>)">Rent</button></td>
-				</tr>
-				
-				<%
-				
-				
-			}
+			
 
 
 			}
@@ -180,12 +161,11 @@
 	
 	
     
-    <div id="customerpopup" style="background-color:white; text-align:center; display:none; position: fixed;top: 20%;z-index: 2;">
-    	<form id="finalSubmit" action="rentTransaction" method="post">
-    		<input id="rentalIDUpdate" type="hidden" name="id" />
-			<input id="isRentedUpdate" type="hidden" name="isRented"  />
+    <div id="updatepopup" style="background-color:white; text-align:center; display:none; position: fixed;top: 20%;z-index: 2;">
+    	<form id="finalSubmit" action="inventoryTransaction" method="post">
+    		<input id="productIDUpdate" type="hidden" name="id" />
 			<input type="hidden" name="invUserID" value="<%=userID %>" />
-			Customer Information: <input type="text" name="customer" size="20" autofocus="autofocus" />
+			New Quantity value: <input id="newQuant" type="text" name="quantity" size="20"  />
 			<button type="button" onclick="saveButton()">save</button>
 			<button type="button" onclick="cancelButton()">cancel</button>
     	</form>

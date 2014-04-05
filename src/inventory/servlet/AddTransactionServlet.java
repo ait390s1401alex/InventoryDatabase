@@ -10,6 +10,7 @@
 package inventory.servlet;
 
 import inventory.db.InvTransaction;
+import inventory.db.Product;
 
 import javax.servlet.http.*;
 import javax.servlet.ServletException;
@@ -25,12 +26,30 @@ public class AddTransactionServlet extends HttpServlet {
 	
 		
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String invUserID = req.getParameter("invUserID");
-        String productID = req.getParameter("productID");
-        String transQuantity = req.getParameter("transQuantity");
-        
-        InvTransaction.createInvTransaction(invUserID, productID, transQuantity);
-        resp.sendRedirect("allTransactions.jsp");
+		if(req.getRequestURI().equals("/auth/admin/addInventoryTransaction")){
+			String invUserID = req.getParameter("invUserID");
+	        String productID = req.getParameter("productID");
+	        String transQuantity = req.getParameter("transQuantity");
+	        
+	        InvTransaction.createInvTransaction(invUserID, productID, transQuantity);
+	        resp.sendRedirect("allTransactions.jsp");
+	        
+		}else if(req.getRequestURI().equals("/auth/user/inventoryTransaction")){
+			String invUserID = req.getParameter("invUserID");
+	        String productID = req.getParameter("id");
+	        String quantity = req.getParameter("quantity");
+	        
+	        int transQuantInt = (Integer.parseInt(quantity))- Integer.parseInt((Product.getQuantity(Product.getProduct(productID))));
+	        
+	        if(Product.setQuantity(productID, quantity) == true){
+	        	InvTransaction.createInvTransaction(invUserID, productID, transQuantInt + "");
+		        resp.sendRedirect("inventory.jsp");
+	        }
+	        resp.sendRedirect("/error.html");
+	        
+		}
+		resp.sendRedirect("/error.html");
+		
 	}
 
 

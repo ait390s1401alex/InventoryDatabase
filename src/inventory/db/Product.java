@@ -11,6 +11,7 @@ package inventory.db;
 import java.util.List;
 
 
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -205,6 +206,31 @@ public class Product {
 		if (max_quantity == null)
 			max_quantity = "";
 		return (String) max_quantity;
+	}
+	
+	
+	//
+	//  SETTERS
+	//
+	
+	
+	/**
+	 * Set the quantity for the product.
+	 * 
+	 * @param productID string id for the product
+	 * @param quantity String value for new quantity value
+	 * @return the true or false.
+	 */
+	public static boolean setQuantity(String productID, String quantity) {
+		Entity product = getProduct(productID);
+		try {
+			product.setProperty(QTY_PROPERTY, quantity);
+			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+			datastore.put(product);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
 	
 

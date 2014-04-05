@@ -279,6 +279,19 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>AddRentalTransactionServletUser</servlet-name>
 		<url-pattern>/auth/user/rentTransaction</url-pattern>
 	</servlet-mapping>
+	
+	
+	<!-- USER SERVLET: InvTransaction -->
+
+
+	<servlet>
+		<servlet-name>AddTransactionServletUser</servlet-name>
+		<servlet-class>inventory.servlet.AddTransactionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddTransactionServletUser</servlet-name>
+		<url-pattern>/auth/user/inventoryTransaction</url-pattern>
+	</servlet-mapping>
 
 
 	
