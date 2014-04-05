@@ -28,12 +28,9 @@ public class UpdateTransactionServlet extends HttpServlet {
 		
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
-		String invUserID = req.getParameter("invUserID");
-		String productID = req.getParameter("productID");
         String transQuantity = req.getParameter("transQuantity");
-        Date date = new Date();
 
-        InvTransaction.updateInvTransaction(id, invUserID, productID,  transQuantity,  date.toString());
+        InvTransaction.updateInvTransaction(id, transQuantity);
         resp.sendRedirect("allTransactions.jsp");
 }
 

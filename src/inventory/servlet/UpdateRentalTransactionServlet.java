@@ -28,13 +28,10 @@ public class UpdateRentalTransactionServlet extends HttpServlet {
 		
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
-		String invUserID = req.getParameter("invUserID");
-		String rentalID = req.getParameter("rentalID");
         String inOut = req.getParameter("inOut");
-        String date = req.getParameter("date");
         String customer = req.getParameter("customer");
 
-        RentTransaction.updateRentTransaction(id, invUserID, rentalID,  inOut,  date, customer);
+        RentTransaction.updateRentTransaction(id, inOut, customer);
         resp.sendRedirect("allRentalTransactions.jsp");
 }
 

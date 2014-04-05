@@ -192,6 +192,19 @@ public class RentTransaction {
 		return (String) customer;
 	}
 	
+	/**
+	 * Return the datevalue for the renttransaction.
+	 * 
+	 * @param rentTransaction The GAE Entity storing the renttransaction
+	 * @return the datevalue in the renttransaction.
+	 */
+	public static String getDateValue(Entity rentTransaction) {
+		Object date = rentTransaction.getProperty(DATEVALUE_PROPERTY);
+		if (date == null)
+			date = "";
+		return (String) date;
+	}
+	
 	
 	
 
@@ -260,7 +273,7 @@ public class RentTransaction {
 			rentTransaction.setProperty(RENTALID_PROPERTY, rentalID);
 			rentTransaction.setProperty(INOUT_PROPERTY, inOut);
 			Date date = new Date();
-			rentTransaction.setProperty(DATEVALUE_PROPERTY, date.getTime());
+			rentTransaction.setProperty(DATEVALUE_PROPERTY, (date.getTime() + ""));
 			rentTransaction.setProperty(DATE_PROPERTY, date.toString());
 			rentTransaction.setProperty(CUSTOMER_PROPERTY, customer);
 			datastore.put(rentTransaction);
@@ -324,6 +337,28 @@ public class RentTransaction {
 			rentTransaction.setProperty(RENTALID_PROPERTY, rentalID);
 			rentTransaction.setProperty(INOUT_PROPERTY, inOut);
 			rentTransaction.setProperty(DATE_PROPERTY, date);
+			rentTransaction.setProperty(CUSTOMER_PROPERTY, customer);
+			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+			datastore.put(rentTransaction);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Update the current description of the renttransaction
+	 * 
+	 * @param rentTransactionID A string with the renttransaction ID (a long).
+	 * @param inOut the inOut for this renttransaction
+	 * @param customer The customer of the renttransaction.
+	 * @return true if succeed and false otherwise
+	 */
+	public static boolean updateRentTransaction(String rentTransactionID, String inOut, String customer) {
+		Entity rentTransaction = null;
+		try {
+			rentTransaction = getRentTransaction(rentTransactionID);
+			rentTransaction.setProperty(INOUT_PROPERTY, inOut);
 			rentTransaction.setProperty(CUSTOMER_PROPERTY, customer);
 			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 			datastore.put(rentTransaction);

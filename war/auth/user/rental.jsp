@@ -50,6 +50,7 @@
     	$("#rentalIDUpdate").val(ID);
     	$("#isRentedUpdate").val($("#isRented"+ID).val());
     	document.getElementById("customerpopup").style.display = "";
+    	document.getElementById("newCust").focus();
     }
     
     function cancelButton(ID) {
@@ -185,7 +186,7 @@
     		<input id="rentalIDUpdate" type="hidden" name="id" />
 			<input id="isRentedUpdate" type="hidden" name="isRented"  />
 			<input type="hidden" name="invUserID" value="<%=userID %>" />
-			Customer Information: <input type="text" name="customer" size="20" autofocus="autofocus" />
+			Customer Information: <input id="newCust" type="text" name="customer" size="20" />
 			<button type="button" onclick="saveButton()">save</button>
 			<button type="button" onclick="cancelButton()">cancel</button>
     	</form>

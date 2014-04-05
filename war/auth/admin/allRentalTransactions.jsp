@@ -11,6 +11,12 @@
 <%@ page import="com.google.appengine.api.datastore.Key" %>
 <%@ page import="com.google.appengine.api.datastore.KeyFactory" %>
 <%@ page import="inventory.db.RentTransaction" %>
+<%@ page import="inventory.db.Product" %>
+<%@ page import="inventory.db.InvUser" %>
+<%@ page import="inventory.db.RentTransaction" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.TimeZone" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -37,6 +43,8 @@
     
     
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/DataTables/media/js/jquery.js"></script>
+	<script type="text/javascript" charset="utf-8" src="/DataTables/media/js/jquery.dataTables.js"></script>
     
     <script>
 	
@@ -64,6 +72,10 @@
     	$("#customerUpdate").val($("#customer"+ID).val());
     	document.forms["finalSubmit"].submit();
     }
+    
+    $(document).ready(function() {
+        $('#maintable').dataTable();
+    } );
     
     </script>
     
@@ -103,22 +115,30 @@
 	%>
 	
 	<h1>All Transactions</h1>
-	<table border="1">
+	<table id="maintable" border="1">
+	<thead>
 		<tr>
-			<td>UserID</td>
-			<td>RentalID</td>
-			<td>In/Out</td>
-			<td>date</td>
-			<td>Customer</td>
-			<td>Edit</td>
-			<td>Delete</td>
+			<th>UserID</th>
+			<th>RentalID</th>
+			<th>In/Out</th>
+			<th>Date</th>
+			<th>Customer</th>
+			<th>Edit</th>
+			<th>Delete</th>
 		</tr>
+		</thead>
+		<tbody>
 		<%
 			for (Entity rentTransaction : allTransactions) {
-					String invUserID = RentTransaction.getInvUserID(rentTransaction);
+					String invUserID = InvUser.getLoginID(InvUser.getInvUser(RentTransaction.getInvUserID(rentTransaction)));
 					String rentalID = RentTransaction.getRentalID(rentTransaction);
 					String inOut = RentTransaction.getInOut(rentTransaction);
-					String date = RentTransaction.getDate(rentTransaction);
+					String transDate = RentTransaction.getDateValue(rentTransaction);
+					Date date = new Date(Long.parseLong(transDate));
+					SimpleDateFormat df2 = new SimpleDateFormat("MM/dd/yy hh:mm");
+					df2.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+					String dateText = df2.format(date);
+					
 					String customer = RentTransaction.getCustomer(rentTransaction);
 					String rentTransID = RentTransaction.getStringID(rentTransaction);
 		%>
@@ -127,17 +147,17 @@
 				<td><%=invUserID%></td>
 				<td><%=rentalID %></td>
 				<td><%=inOut %></td>
-				<td><%=date %></td>
+				<td><%=dateText %></td>
 				<td><%=customer %></td>
 				<td><button type="button" onclick="editButton(<%=rentTransID%>)">Edit</button></td>
 				<td><button type="button" onclick="deleteButton(<%=rentTransID%>)">Delete</button></td>
 		</tr>
 		
 		<tr id="edit<%=rentTransID%>" style="display: none">
-				<td><input id="invUserID<%=rentTransID%>" type="text" name="invUserID" value="<%=invUserID%>" size="20" /></td>
-				<td><input id="rentalID<%=rentTransID%>" type="text" name="rentalID" value="<%=rentalID%>" size="20" /></td>
+				<td><input id="invUserID<%=rentTransID%>" type="text" name="invUserID" value="<%=invUserID%>" size="20" disabled="disabled" /></td>
+				<td><input id="rentalID<%=rentTransID%>" type="text" name="rentalID" value="<%=rentalID%>" size="20" disabled="disabled" /></td>
 				<td><input id="inOut<%=rentTransID%>" type="text" name="inOut" value="<%=inOut%>" size="20" /></td>
-				<td><input id="date<%=rentTransID%>" type="text" name="date" value="<%=date%>" size="20" /></td>
+				<td><input id="date<%=rentTransID%>" type="text" name="date" value="<%=dateText%>" size="20" disabled="disabled"/></td>
 				<td><input id="customer<%=rentTransID%>" type="text" name="customer" value="<%=customer%>" size="20" /></td>
 				<td><button type="button" onclick="cancelButton(<%=rentTransID%>)">cancel</button><button type="button" onclick="saveButton(<%=rentTransID%>)">save</button></td>
 				<td><button type="button" onclick="deleteButton(<%=rentTransID%>)">Delete</button></td>		
@@ -148,7 +168,7 @@
 
 		}
 		%>
-
+	</tbody>
 	</table>
 	
 

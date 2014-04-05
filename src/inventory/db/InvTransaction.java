@@ -192,7 +192,7 @@ public class InvTransaction {
 			invTransaction.setProperty(PRODUCTID_PROPERTY, productID);
 			invTransaction.setProperty(TRANS_QUANT_PROPERTY, transQuantity);
 			Date date = new Date();
-			invTransaction.setProperty(TRANS_DATE_PROPERTY, date.toString());
+			invTransaction.setProperty(TRANS_DATE_PROPERTY, date.getTime() + "");
 			datastore.put(invTransaction);
 
 			txn.commit();
@@ -254,6 +254,27 @@ public class InvTransaction {
 			invTransaction.setProperty(PRODUCTID_PROPERTY, productID);
 			invTransaction.setProperty(TRANS_QUANT_PROPERTY, transQuantity);
 			invTransaction.setProperty(TRANS_DATE_PROPERTY, transDate);
+			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+			datastore.put(invTransaction);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	/**
+	 * Update the current description of the invtransaction
+	 * 
+	 * @param invTransactionID A string with the intransaction ID (a long).
+	 * @param transQuantity the transquantity for this invtransaction
+	 * @return true if succeed and false otherwise
+	 */
+	public static boolean updateInvTransaction(String invTransactionID, String transQuantity) {
+		Entity invTransaction = null;
+		try {
+			invTransaction = getInvTransaction(invTransactionID);
+			invTransaction.setProperty(TRANS_QUANT_PROPERTY, transQuantity);
 			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 			datastore.put(invTransaction);
 		} catch (Exception e) {

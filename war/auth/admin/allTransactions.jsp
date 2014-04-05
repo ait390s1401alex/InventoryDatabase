@@ -11,6 +11,11 @@
 <%@ page import="com.google.appengine.api.datastore.Key" %>
 <%@ page import="com.google.appengine.api.datastore.KeyFactory" %>
 <%@ page import="inventory.db.InvTransaction" %>
+<%@ page import="inventory.db.InvUser" %>
+<%@ page import="inventory.db.Product" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.TimeZone" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -37,6 +42,8 @@
     
     
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/DataTables/media/js/jquery.js"></script>
+	<script type="text/javascript" charset="utf-8" src="/DataTables/media/js/jquery.dataTables.js"></script>
     
     <script>
 	
@@ -62,6 +69,10 @@
     	$("#transQuantityUpdate").val($("#transQuantity"+ID).val());
     	document.forms["finalSubmit"].submit();
     }
+    
+    $(document).ready(function() {
+        $('#maintable').dataTable();
+    } );
     
     </script>
     
@@ -101,21 +112,30 @@
 	%>
 	
 	<h1>All Transactions</h1>
-	<table border="1">
+	<table id="maintable" border="1">
+	<thead>
 		<tr>
-			<td>UserID</td>
-			<td>ProductID</td>
-			<td>Transaction Quantity</td>
-			<td>Transaction Date</td>
-			<td>Edit</td>
-			<td>Delete</td>
+			<th>UserID</th>
+			<th>Product</th>
+			<th>Transaction Quantity</th>
+			<th>Transaction Date</th>
+			<th>Date Sort Value</th>
+			<th>Edit</th>
+			<th>Delete</th>
 		</tr>
+		</thead>
+		<tbody>
 		<%
 			for (Entity invTransaction : allTransactions) {
-					String invUserID = InvTransaction.getInvUserID(invTransaction);
-					String productID = InvTransaction.getProductID(invTransaction);
+					String invUserID = InvUser.getLoginID(InvUser.getInvUser(InvTransaction.getInvUserID(invTransaction)));
+					String productID = Product.getName(Product.getProduct(InvTransaction.getProductID(invTransaction)));
 					String transQuantity = InvTransaction.getTransQuantity(invTransaction);
 					String transDate = InvTransaction.getTransDate(invTransaction);
+					Date date = new Date(Long.parseLong(transDate));
+					SimpleDateFormat df2 = new SimpleDateFormat("MM/dd/yy hh:mm");
+					df2.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+			        String dateText = df2.format(date);
+					
 					String invTransID = InvTransaction.getStringID(invTransaction);
 		%>
 
@@ -123,16 +143,18 @@
 				<td><%=invUserID%></td>
 				<td><%=productID %></td>
 				<td><%=transQuantity %></td>
+				<td><%=dateText %></td>
 				<td><%=transDate %></td>
 				<td><button type="button" onclick="editButton(<%=invTransID%>)">Edit</button></td>
 				<td><button type="button" onclick="deleteButton(<%=invTransID%>)">Delete</button></td>
 		</tr>
 		
 		<tr id="edit<%=invTransID%>" style="display: none">
-				<td><input id="invUserID<%=invTransID%>" type="text" name="invUserID" value="<%=invUserID%>" size="20" /></td>
-				<td><input id="productID<%=invTransID%>" type="text" name="productID" value="<%=productID%>" size="20" /></td>
+				<td><input id="invUserID<%=invTransID%>" type="text" name="invUserID" value="<%=invUserID%>" size="20" disabled="disabled" /></td>
+				<td><input id="productID<%=invTransID%>" type="text" name="productID" value="<%=productID%>" size="20" disabled="disabled"/></td>
 				<td><input id="transQuantity<%=invTransID%>" type="text" name="transQuantity" value="<%=transQuantity%>" size="20" /></td>
-				<td><input id="transDate<%=invTransID%>" type="text" name="transDate" value="<%=transDate%>" size="20" disabled="true" /></td>
+				<td><input id="transDate<%=invTransID%>" type="text" name="transDate" value="<%=dateText%>" size="20" disabled="disabled" /></td>
+				<td><input type="text" name="dateValue" value="<%=transDate%>" size="20" disabled="disabled" /></td>
 				<td><button type="button" onclick="cancelButton(<%=invTransID%>)">cancel</button><button type="button" onclick="saveButton(<%=invTransID%>)">save</button></td>
 				<td><button type="button" onclick="deleteButton(<%=invTransID%>)">Delete</button></td>		
 		</tr>
@@ -142,7 +164,7 @@
 
 		}
 		%>
-
+	</tbody>
 	</table>
 	
 
