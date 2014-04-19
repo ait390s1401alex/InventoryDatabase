@@ -131,7 +131,7 @@
 						<div id="popup" class="popup" onmouseover="popup();" onmouseout="popoff();" style="display:none">
 						<ul>
 							<li><a href="editProfile.jsp" >PROFILE</a></li>
-							<li><a href="/logout" onmouseover="popup();">LOGOUT</a></li>
+							<li><a href="/logout">LOGOUT</a></li>
 						</ul>
 						</div>
 						<br />
