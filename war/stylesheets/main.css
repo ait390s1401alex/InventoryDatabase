@@ -56,6 +56,18 @@ body {
 	
 }
 
+.editpop{
+	border: 1px black solid;
+	background-color: white;
+	z-index: 2;
+	
+}
+
+.tablepop{
+	width:100%;
+	
+}
+
 h1 {
 	padding: 5px;
 	margin: 0px;

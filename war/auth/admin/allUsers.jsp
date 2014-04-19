@@ -41,25 +41,35 @@
 	
 
     function editButton(ID) {
-    	document.getElementById("view"+ID).style.display = "none";
-    	document.getElementById("edit"+ID).style.display = "";
-    }
-    
-    function cancelButton(ID) {
-    	document.getElementById("view"+ID).style.display = "";
-    	document.getElementById("edit"+ID).style.display = "none";
-    }
-    
-    function deleteButton(ID) {
-    	window.location = 'deleteUser?id=' + ID;
-    }
-    
-    function saveButton(ID) {
-    	$("#invUserIDUpdate").val(ID);
+    $("#invUserIDUpdate").val(ID);
     	$("#firstNameUpdate").val($("#firstName"+ID).val());
     	$("#lastNameUpdate").val($("#lastName"+ID).val());
     	$("#isAdminUpdate").val($("#isAdmin"+ID).val());
     	$("#isStandardUserUpdate").val($("#isStandardUser"+ID).val());
+    	var pos = $("#view" + ID).position();
+	    	var wid = $("#view" + ID).width();
+	    	$("#editpop").css({
+	            position: "absolute",
+	            top: (pos.top - 0) + "px",
+	            left: (wid/2 - 100) + "px",
+	            width: 500 + "px"
+	        }).show();
+	    document.getElementById("editpop").style.display = "";
+    }
+    
+    function cancelButton() {
+    	document.getElementById("editpop").style.display = "none";
+    }
+    
+    function deleteButton(ID) {
+    	if(confirm('Are you sure you want to delete this User?')){
+    		window.location = 'deleteUser?id=' + ID;
+    	}else{
+    	
+    	}
+    }
+    
+    function saveButton() {
     	document.forms["finalSubmit"].submit();
     }
     
@@ -150,23 +160,15 @@
 		%>
 
 		<tr id="view<%=invUserID%>">
-				<td><%=loginID %></td>
-				<td><%=firstName%></td>
-				<td><%=lastName %></td>
-				<td><%=isAdmin %></td>
-				<td><%=isStandardUser %></td>
+				<td><%=loginID %><input id="loginID<%=invUserID%>" type="text" name="loginID" value="<%=loginID%>" size="20" disabled="disabled" hidden="true" /></td>
+				<td><%=firstName%><input id="firstName<%=invUserID%>" type="text" name="firstName" value="<%=firstName%>" size="20" hidden="true" /></td>
+				<td><%=lastName %><input id="lastName<%=invUserID%>" type="text" name="lastName" value="<%=lastName%>" size="20" hidden="true" /></td>
+				<td><%=isAdmin %><input id="isAdmin<%=invUserID%>" type="text" name="isAdmin" value="<%=isAdmin%>" size="20" hidden="true" /></td>
+				<td><%=isStandardUser %><input id="isStandardUser<%=invUserID%>" type="text" name="isStandardUser" value="<%=isStandardUser%>" size="20" hidden="true" /></td>
 				<td><button type="button" onclick="editButton(<%=invUserID%>)">Edit</button></td>
 				<td><button type="button" onclick="deleteButton(<%=invUserID%>)">Delete</button></td>
 		</tr>
 		
-		<tr id="edit<%=invUserID%>" style="display: none">
-				<td><input id="loginID<%=invUserID%>" type="text" name="loginID" value="<%=loginID%>" size="20" disabled="disabled" /></td>
-				<td><input id="firstName<%=invUserID%>" type="text" name="firstName" value="<%=firstName%>" size="20" /></td>
-				<td><input id="lastName<%=invUserID%>" type="text" name="lastName" value="<%=lastName%>" size="20" /></td>
-				<td><input id="isAdmin<%=invUserID%>" type="text" name="isAdmin" value="<%=isAdmin%>" size="20" /></td>
-				<td><input id="isStandardUser<%=invUserID%>" type="text" name="isStandardUser" value="<%=isStandardUser%>" size="20" /></td>
-				<td><button type="button" onclick="cancelButton(<%=invUserID%>)">cancel</button><button type="button" onclick="saveButton(<%=invUserID%>)">save</button></td>
-				<td><button type="button" onclick="deleteButton(<%=invUserID%>)">Delete</button></td>		</tr>
 		
 		<%
 			}
@@ -201,13 +203,16 @@
 		<input type="submit" value="Add User" />
     </form>
     
-    <div>
+    <div id="editpop" class="editpop" style="display:none">
     	<form id="finalSubmit" action="updateUser" method="post">
 	    	<input id="invUserIDUpdate" type="hidden" name="id" />
-	    	<input id="firstNameUpdate" type="hidden" name="firstName" />
-			<input id="lastNameUpdate" type="hidden" name="lastName"  />
-			<input id="isAdminUpdate" type="hidden" name="isAdmin"  />
-			<input id="isStandardUserUpdate" type="hidden" name="isStandardUser"  />
+	    	<table class="tablepop">
+	    		<tr><td>First Name: </td><td><input id="firstNameUpdate" type="text" name="firstName" /></td></tr>
+				<tr><td>Last Name: </td><td><input id="lastNameUpdate" type="text" name="lastName"  /></td></tr>
+				<tr><td>Is Admin?: </td><td><input id="isAdminUpdate" type="text" name="isAdmin"  /></td></tr>
+				<tr><td>Is User?: </td><td><input id="isStandardUserUpdate" type="text" name="isStandardUser"  /></td></tr>
+				<tr><td colspan="2"><button type="button" onclick="cancelButton()">cancel</button><button type="button" id="savebutton" onclick="saveButton()">save</button></td></tr>
+    		</table>
     	</form>
     </div>
 

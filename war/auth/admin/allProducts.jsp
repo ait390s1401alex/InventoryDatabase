@@ -45,22 +45,7 @@
     <script>
     
     
-
     function editButton(ID) {
-    	document.getElementById("view"+ID).style.display = "none";
-    	document.getElementById("edit"+ID).style.display = "";
-    }
-    
-    function cancelButton(ID) {
-    	document.getElementById("view"+ID).style.display = "";
-    	document.getElementById("edit"+ID).style.display = "none";
-    }
-    
-    function deleteButton(ID) {
-    	window.location = 'deleteProduct?id=' + ID;
-    }
-    
-    function saveButton(ID) {
     	$("#savebutton"+ID).attr("disabled", "disabled");
     	$("#productIDUpdate").val(ID);
     	$("#productNameUpdate").val($("#productName"+ID).val());
@@ -69,6 +54,35 @@
     	$("#salesPriceUpdate").val($("#salesPrice"+ID).val());
     	$("#minQuantityUpdate").val($("#minQuantity"+ID).val());
     	$("#maxQuantityUpdate").val($("#maxQuantity"+ID).val());
+    	var pos = $("#view" + ID).position();
+	    	var wid = $("#view" + ID).width();
+	    	$("#editpop").css({
+	            position: "absolute",
+	            top: (pos.top - 0) + "px",
+	            left: (wid/2 - 100) + "px",
+	            width: 500 + "px"
+	        }).show();
+	    document.getElementById("editpop").style.display = "";
+    	
+    	
+    }
+    
+
+    
+    function cancelButton() {
+    	document.getElementById("editpop").style.display = "none";
+    }
+    
+    function deleteButton(ID) {
+    	if(confirm('Are you sure you want to delete this product?')){
+    		window.location = 'deleteProduct?id=' + ID;
+    	}else{
+    	
+    	}
+    	
+    }
+    
+    function saveButton() {
     	document.forms["finalSubmit"].submit();
     }
     
@@ -119,7 +133,7 @@
 						<div class="top" id="menudrop" style="float:right"><a href="#" onmouseover="popup();" onmouseout="popoff();"><%=InvUser.getFirstName(invUser)%> <%=InvUser.getLastName(invUser)%></a></div>
 						<div id="popup" class="popup" onmouseover="popup();" onmouseout="popoff();" style="display:none">
 						<ul>
-							<li><a href="editProfile.jsp" >PROFILE</a></li>
+							<li><a href="/editProfile.jsp" >PROFILE</a></li>
 							<li><a href="/logout" onmouseover="popup();">LOGOUT</a></li>
 						</ul>
 						</div>
@@ -172,25 +186,14 @@
 			String id = Product.getStringID(product);
 		%>
 		<tr id="view<%=id%>">
-			<td><%=productName%></td>
-			<td><%=quantity%></td>
-			<td><%=purchasePrice%></td>
-			<td><%=salesPrice%></td>
-			<td><%=minQuantity%></td>
-			<td><%=maxQuantity%></td>
+			<td><%=productName%><input id="productName<%=id%>" type="text" name="productName" value="<%=productName%>" size="20" hidden="true" /></td>
+			<td><%=quantity%><input id="quantity<%=id%>" type="text" name="quantity" value="<%=quantity%>" size="20" hidden="true" /></td>
+			<td><%=purchasePrice%><input id="purchasePrice<%=id%>" type="text" name="purchasePrice" value="<%=purchasePrice%>" size="20" hidden="true" /></td>
+			<td><%=salesPrice%><input id="salesPrice<%=id%>" type="text" name="salesPrice" value="<%=salesPrice%>" size="20" hidden="true" /></td>
+			<td><%=minQuantity%><input id="minQuantity<%=id%>" type="text" name="minQuantity" value="<%=minQuantity%>" size="20" hidden="true" /></td>
+			<td><%=maxQuantity%><input id="maxQuantity<%=id%>" type="text" name="maxQuantity" value="<%=maxQuantity%>" size="20" hidden="true" /></td>
 			<td><button type="button" onclick="editButton(<%=id%>)">Edit</button></td>
 			<td><button type="button" onclick="deleteButton(<%=id%>)">Delete</button></td>
-		</tr>
-		
-		<tr id="edit<%=id%>" style="display: none">
-				<td><input id="productName<%=id%>" type="text" name="productName" value="<%=productName%>" size="20"/></td>
-				<td><input id="quantity<%=id%>" type="text" name="quantity" value="<%=quantity%>" size="20" /></td>
-				<td><input id="purchasePrice<%=id%>" type="text" name="purchasePrice" value="<%=purchasePrice%>" size="20" /></td>
-				<td><input id="salesPrice<%=id%>" type="text" name="salesPrice" value="<%=salesPrice%>" size="20" /></td>
-				<td><input id="minQuantity<%=id%>" type="text" name="minQuantity" value="<%=minQuantity%>" size="20" /></td>
-				<td><input id="maxQuantity<%=id%>" type="text" name="maxQuantity" value="<%=maxQuantity%>" size="20" /></td>
-				<td><button type="button" onclick="cancelButton(<%=id%>)">cancel</button><button type="button" id="savebutton<%=id%>" onclick="saveButton(<%=id%>)">save</button></td>
-				<td><button type="button" onclick="deleteButton(<%=id%>)">Delete</button></td>		
 		</tr>
 		
 		<%
@@ -205,10 +208,12 @@
 	<hr />
     <form action="addProduct" method="post">
     <table>
-    <thread>
-    	<th>item</th><th>date</th>
-    </thread>
-    <tboby>
+    <thead>
+    	<tr>
+    		<th>item</th><th>data</th>
+    	</tr>
+    </thead>
+    <tbody>
     	<tr>
     		<td>Product Name: </td><td><input type="text" name="productName" size="50" /></td>
     	</tr>
@@ -227,21 +232,24 @@
     	<tr>
 	    		<td>Max Quantity Defined: </td><td><input type="text" name="maxQuantity" size="50" /></td>
     	</tr>
-    	</tboby>
+    </tbody>
      </table>
       <div><input type="submit" value="Add Product" /></div>
     </form>
     
     
-    <div>
+    <div id="editpop" class="editpop" style="display:none">
     	<form id="finalSubmit" action="updateProduct" method="post">
     		<input id="productIDUpdate" type="hidden" name="id" />
-	    	<input id="productNameUpdate" type="hidden" name="productName" />
-	    	<input id="quantityUpdate" type="hidden" name="quantity" />
-			<input id="purchasePriceUpdate" type="hidden" name="purchasePrice"  />
-			<input id="salesPriceUpdate" type="hidden" name="salesPrice"  />
-			<input id="minQuantityUpdate" type="hidden" name="minQuantity"  />
-			<input id="maxQuantityUpdate" type="hidden" name="maxQuantity"  />
+    	<table class="tablepop">
+    		<tr><td>Product Name: </td><td><input id="productNameUpdate" type="text" name="productName" /></td></tr>
+	    	<tr><td>Quantity: </td><td><input id="quantityUpdate" type="text" name="quantity" /></td></tr>
+			<tr><td>Purchase Price: </td><td><input id="purchasePriceUpdate" type="text" name="purchasePrice" /></td></tr>
+			<tr><td>Sales Price: </td><td><input id="salesPriceUpdate" type="text" name="salesPrice"  /></td></tr>
+			<tr><td>Min Quantity: </td><td><input id="minQuantityUpdate" type="text" name="minQuantity"  /></td></tr>
+			<tr><td>Max Quantity: </td><td><input id="maxQuantityUpdate" type="text" name="maxQuantity"  /></td></tr>
+			<tr><td colspan="2"><button type="button" onclick="cancelButton()">cancel</button><button type="button" id="savebutton" onclick="saveButton()">save</button></td></tr>
+    	</table>
     	</form>
     </div>
     

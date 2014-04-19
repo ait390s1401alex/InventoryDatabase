@@ -46,26 +46,37 @@
 	
 
     function editButton(ID) {
-    	document.getElementById("view"+ID).style.display = "none";
-    	document.getElementById("edit"+ID).style.display = "";
-    }
-    
-    function cancelButton(ID) {
-    	document.getElementById("view"+ID).style.display = "";
-    	document.getElementById("edit"+ID).style.display = "none";
-    }
-    
-    function deleteButton(ID) {
-    	window.location = 'deleteRental?id=' + ID;
-    }
-    
-    function saveButton(ID) {
     	$("#savebutton"+ID).attr("disabled", "disabled");
     	$("#rentalIDUpdate").val(ID);
     	$("#nameUpdate").val($("#name"+ID).val());
     	$("#descriptionUpdate").val($("#description"+ID).val());
     	$("#priceUpdate").val($("#price"+ID).val());
     	$("#isRentedUpdate").val($("#isRented"+ID).val());
+    	var pos = $("#view" + ID).position();
+	    	var wid = $("#view" + ID).width();
+	    	$("#editpop").css({
+	            position: "absolute",
+	            top: (pos.top - 0) + "px",
+	            left: (wid/2 - 100) + "px",
+	            width: 500 + "px"
+	        }).show();
+	    document.getElementById("editpop").style.display = "";
+    }
+    
+    function cancelButton() {
+    	document.getElementById("editpop").style.display = "none";
+    }
+    
+    function deleteButton(ID) {
+    	if(confirm('Are you sure you want to delete this Rental Item?')){
+    		window.location = 'deleteRental?id=' + ID;
+    	}else{
+    	
+    	}
+    	
+    }
+    
+    function saveButton() {
     	document.forms["finalSubmit"].submit();
     }
     
@@ -115,7 +126,7 @@
 						<div class="top" id="menudrop" style="float:right"><a href="#" onmouseover="popup();" onmouseout="popoff();"><%=InvUser.getFirstName(invUser)%> <%=InvUser.getLastName(invUser)%></a></div>
 						<div id="popup" class="popup" onmouseover="popup();" onmouseout="popoff();" style="display:none">
 						<ul>
-							<li><a href="editProfile.jsp" >PROFILE</a></li>
+							<li><a href="/editProfile.jsp" >PROFILE</a></li>
 							<li><a href="/logout" onmouseover="popup();">LOGOUT</a></li>
 						</ul>
 						</div>
@@ -161,22 +172,14 @@
 		%>
 
 		<tr id="view<%=id%>">
-			<td><%=name%></td>
-			<td><%=description%></td>
-			<td><%=price%></td>
-			<td><%=isRented%></td>
+			<td><%=name%><input id="name<%=id%>" type="text" name="name" value="<%=name%>" size="20" hidden="true" /></td>
+			<td><%=description%><input id="description<%=id%>" type="text" name="description" value="<%=description%>" size="20" hidden="true" /></td>
+			<td><%=price%><input id="price<%=id%>" type="text" name="price" value="<%=price%>" size="20" hidden="true" /></td>
+			<td><%=isRented%><input id="isRented<%=id%>" type="text" name="isRented" value="<%=isRented%>" size="20"  hidden="true"/></td>
 			<td><button type="button" onclick="editButton(<%=id%>)">Edit</button></td>
 			<td><button type="button" onclick="deleteButton(<%=id%>)">Delete</button></td>
 		</tr>
-		
-		<tr id="edit<%=id%>" style="display: none">
-				<td><input id="name<%=id%>" type="text" name="name" value="<%=name%>" size="20"/></td>
-				<td><input id="description<%=id%>" type="text" name="description" value="<%=description%>" size="20" /></td>
-				<td><input id="price<%=id%>" type="text" name="price" value="<%=price%>" size="20" /></td>
-				<td><input id="isRented<%=id%>" type="text" name="isRented" value="<%=isRented%>" size="20" /></td>
-				<td><button type="button" onclick="cancelButton(<%=id%>)">cancel</button><button type="button" id="savebutton<%=id%>" onclick="saveButton(<%=id%>)">save</button></td>
-				<td><button type="button" onclick="deleteButton(<%=id%>)">Delete</button></td>		
-		</tr>
+	
 		
 		<%
 			}
@@ -207,13 +210,16 @@
     </form>
     
     
-    <div>
+    <div id="editpop" class="editpop" style="display:none">
     	<form id="finalSubmit" action="updateRental" method="post">
     		<input id="rentalIDUpdate" type="hidden" name="id" />
-	    	<input id="nameUpdate" type="hidden" name="name" />
-	    	<input id="descriptionUpdate" type="hidden" name="description" />
-			<input id="priceUpdate" type="hidden" name="price"  />
-			<input id="isRentedUpdate" type="hidden" name="isRented"  />
+    		<table class="tablepop">
+    		<tr><td>Rental Name: </td><td><input id="nameUpdate" type="text" name="name" /></td></tr>
+	    	<tr><td>Description: </td><td><input id="descriptionUpdate" type="text" name="description" /></td></tr>
+			<tr><td>Price: </td><td><input id="priceUpdate" type="text" name="price"  /></td></tr>
+			<tr><td>Is Rented?: </td><td><input id="isRentedUpdate" type="text" name="isRented"  /></td></tr>
+			<tr><td colspan="2"><button type="button" onclick="cancelButton()">cancel</button><button type="button" id="savebutton" onclick="saveButton()">save</button></td></tr>
+    	</table>
     	</form>
     </div>
 	</div>

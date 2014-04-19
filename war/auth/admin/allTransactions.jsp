@@ -49,24 +49,35 @@
 	
 
     function editButton(ID) {
-    	document.getElementById("view"+ID).style.display = "none";
-    	document.getElementById("edit"+ID).style.display = "";
-    }
-    
-    function cancelButton(ID) {
-    	document.getElementById("view"+ID).style.display = "";
-    	document.getElementById("edit"+ID).style.display = "none";
-    }
-    
-    function deleteButton(ID) {
-    	window.location = 'deleteTransaction?id=' + ID;
-    }
-    
-    function saveButton(ID) {
     	$("#invTransactionIDUpdate").val(ID);
     	$("#invUserIDUpdate").val($("#invUserID"+ID).val());
     	$("#productIDUpdate").val($("#productID"+ID).val());
     	$("#transQuantityUpdate").val($("#transQuantity"+ID).val());
+    	var pos = $("#view" + ID).position();
+	    	var wid = $("#view" + ID).width();
+	    	$("#editpop").css({
+	            position: "absolute",
+	            top: (pos.top - 0) + "px",
+	            left: (wid/2 - 100) + "px",
+	            width: 500 + "px"
+	        }).show();
+	    document.getElementById("editpop").style.display = "";
+    }
+    
+    function cancelButton() {
+    	document.getElementById("editpop").style.display = "none";
+    }
+    
+    function deleteButton(ID) {
+    	if(confirm('Are you sure you want to delete this Transaction?')){
+    		window.location = 'deleteTransaction?id=' + ID;
+    	}else{
+    	
+    	}
+    	
+    }
+    
+    function saveButton() {
     	document.forms["finalSubmit"].submit();
     }
     
@@ -168,24 +179,15 @@
 		%>
 
 		<tr id="view<%=invTransID%>">
-				<td><%=invUserID%></td>
-				<td><%=productID %></td>
-				<td><%=transQuantity %></td>
-				<td><%=dateText %></td>
-				<td><%=transDate %></td>
+				<td><%=invUserID%><input id="invUserID<%=invTransID%>" type="text" name="invUserID" value="<%=invUserID%>" size="20" disabled="disabled" hidden="true" /></td>
+				<td><%=productID %><input id="productID<%=invTransID%>" type="text" name="productID" value="<%=productID%>" size="20" disabled="disabled" hidden="true" /></td>
+				<td><%=transQuantity %><input id="transQuantity<%=invTransID%>" type="text" name="transQuantity" value="<%=transQuantity%>" size="20" hidden="true" /></td>
+				<td><%=dateText %><input id="transDate<%=invTransID%>" type="text" name="transDate" value="<%=dateText%>" size="20" disabled="disabled" hidden="true" /></td>
+				<td><%=transDate %><input type="text" name="dateValue" value="<%=transDate%>" size="20" disabled="disabled" hidden="true" /></td>
 				<td><button type="button" onclick="editButton(<%=invTransID%>)">Edit</button></td>
 				<td><button type="button" onclick="deleteButton(<%=invTransID%>)">Delete</button></td>
 		</tr>
 		
-		<tr id="edit<%=invTransID%>" style="display: none">
-				<td><input id="invUserID<%=invTransID%>" type="text" name="invUserID" value="<%=invUserID%>" size="20" disabled="disabled" /></td>
-				<td><input id="productID<%=invTransID%>" type="text" name="productID" value="<%=productID%>" size="20" disabled="disabled"/></td>
-				<td><input id="transQuantity<%=invTransID%>" type="text" name="transQuantity" value="<%=transQuantity%>" size="20" /></td>
-				<td><input id="transDate<%=invTransID%>" type="text" name="transDate" value="<%=dateText%>" size="20" disabled="disabled" /></td>
-				<td><input type="text" name="dateValue" value="<%=transDate%>" size="20" disabled="disabled" /></td>
-				<td><button type="button" onclick="cancelButton(<%=invTransID%>)">cancel</button><button type="button" onclick="saveButton(<%=invTransID%>)">save</button></td>
-				<td><button type="button" onclick="deleteButton(<%=invTransID%>)">Delete</button></td>		
-		</tr>
 		
 		<%
 			}
@@ -214,12 +216,15 @@
 		<input type="submit" value="Add Transaction" />
     </form>
     
-    <div>
+    <div id="editpop" class="editpop" style="display:none">
     	<form id="finalSubmit" action="updateTransaction" method="post">
 	    	<input id="invTransactionIDUpdate" type="hidden" name="id" />
-	    	<input id="invUserIDUpdate" type="hidden" name="invUserID" />
-			<input id="productIDUpdate" type="hidden" name="productID"  />
-			<input id="transQuantityUpdate" type="hidden" name="transQuantity"  />
+	    	<table class="tablepop">
+    			<tr><td>User: </td><td><input id="invUserIDUpdate" type="text" name="invUserID" disabled="disabled" /></td></tr>
+				<tr><td>Product: </td><td><input id="productIDUpdate" type="text" name="productID"  disabled="disabled" /></td></tr>
+				<tr><td>Quantity: </td><td><input id="transQuantityUpdate" type="text" name="transQuantity"  /></td></tr>
+				<tr><td colspan="2"><button type="button" onclick="cancelButton()">cancel</button><button type="button" id="savebutton" onclick="saveButton()">save</button></td></tr>
+    		</table>
     	</form>
     </div>
 

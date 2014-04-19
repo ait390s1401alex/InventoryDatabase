@@ -13,7 +13,7 @@
 <%@ page import="inventory.db.RentTransaction" %>
 <%@ page import="inventory.db.Product" %>
 <%@ page import="inventory.db.InvUser" %>
-<%@ page import="inventory.db.RentTransaction" %>
+<%@ page import="inventory.db.Rental" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.TimeZone" %>
@@ -50,26 +50,37 @@
 	
 
     function editButton(ID) {
-    	document.getElementById("view"+ID).style.display = "none";
-    	document.getElementById("edit"+ID).style.display = "";
-    }
-    
-    function cancelButton(ID) {
-    	document.getElementById("view"+ID).style.display = "";
-    	document.getElementById("edit"+ID).style.display = "none";
-    }
-    
-    function deleteButton(ID) {
-    	window.location = 'deleteRentalTransaction?id=' + ID;
-    }
-    
-    function saveButton(ID) {
     	$("#rentTransactionIDUpdate").val(ID);
     	$("#invUserIDUpdate").val($("#invUserID"+ID).val());
     	$("#rentalIDUpdate").val($("#rentalID"+ID).val());
     	$("#inOutUpdate").val($("#inOut"+ID).val());
     	$("#dateUpdate").val($("#date"+ID).val());
     	$("#customerUpdate").val($("#customer"+ID).val());
+    	var pos = $("#view" + ID).position();
+	    	var wid = $("#view" + ID).width();
+	    	$("#editpop").css({
+	            position: "absolute",
+	            top: (pos.top - 0) + "px",
+	            left: (wid/2 - 100) + "px",
+	            width: 500 + "px"
+	        }).show();
+	    document.getElementById("editpop").style.display = "";
+    }
+    
+    function cancelButton() {
+    	document.getElementById("editpop").style.display = "none";
+    }
+    
+    function deleteButton(ID) {
+    	if(confirm('Are you sure you want to delete this Rental Transaction?')){
+    		window.location = 'deleteRentalTransaction?id=' + ID;
+    	}else{
+    	
+    	}
+    	
+    }
+    
+    function saveButton() {
     	document.forms["finalSubmit"].submit();
     }
     
@@ -158,7 +169,7 @@
 		<%
 			for (Entity rentTransaction : allTransactions) {
 					String invUserID = InvUser.getLoginID(InvUser.getInvUser(RentTransaction.getInvUserID(rentTransaction)));
-					String rentalID = RentTransaction.getRentalID(rentTransaction);
+					String rentalID = Rental.getName(Rental.getRental(RentTransaction.getRentalID(rentTransaction)));
 					String inOut = RentTransaction.getInOut(rentTransaction);
 					String transDate = RentTransaction.getDateValue(rentTransaction);
 					Date date = new Date(Long.parseLong(transDate));
@@ -171,24 +182,15 @@
 		%>
 
 		<tr id="view<%=rentTransID%>">
-				<td><%=invUserID%></td>
-				<td><%=rentalID %></td>
-				<td><%=inOut %></td>
-				<td><%=dateText %></td>
-				<td><%=customer %></td>
+				<td><%=invUserID%><input id="invUserID<%=rentTransID%>" type="text" name="invUserID" value="<%=invUserID%>" size="20" disabled="disabled" hidden="true" /></td>
+				<td><%=rentalID %><input id="rentalID<%=rentTransID%>" type="text" name="rentalID" value="<%=rentalID%>" size="20" disabled="disabled" hidden="true" /></td>
+				<td><%=inOut %><input id="inOut<%=rentTransID%>" type="text" name="inOut" value="<%=inOut%>" size="20" hidden="true" /></td>
+				<td><%=dateText %><input id="date<%=rentTransID%>" type="text" name="date" value="<%=dateText%>" size="20" disabled="disabled" hidden="true" /></td>
+				<td><%=customer %><input id="customer<%=rentTransID%>" type="text" name="customer" value="<%=customer%>" size="20" hidden="true" /></td>
 				<td><button type="button" onclick="editButton(<%=rentTransID%>)">Edit</button></td>
 				<td><button type="button" onclick="deleteButton(<%=rentTransID%>)">Delete</button></td>
 		</tr>
 		
-		<tr id="edit<%=rentTransID%>" style="display: none">
-				<td><input id="invUserID<%=rentTransID%>" type="text" name="invUserID" value="<%=invUserID%>" size="20" disabled="disabled" /></td>
-				<td><input id="rentalID<%=rentTransID%>" type="text" name="rentalID" value="<%=rentalID%>" size="20" disabled="disabled" /></td>
-				<td><input id="inOut<%=rentTransID%>" type="text" name="inOut" value="<%=inOut%>" size="20" /></td>
-				<td><input id="date<%=rentTransID%>" type="text" name="date" value="<%=dateText%>" size="20" disabled="disabled"/></td>
-				<td><input id="customer<%=rentTransID%>" type="text" name="customer" value="<%=customer%>" size="20" /></td>
-				<td><button type="button" onclick="cancelButton(<%=rentTransID%>)">cancel</button><button type="button" onclick="saveButton(<%=rentTransID%>)">save</button></td>
-				<td><button type="button" onclick="deleteButton(<%=rentTransID%>)">Delete</button></td>		
-		</tr>
 		
 		<%
 			}
@@ -222,14 +224,18 @@
 		<input type="submit" value="Add Transaction" />
     </form>
     
-    <div>
+    <div id="editpop" class="editpop" style="display:none">
     	<form id="finalSubmit" action="updateRentalTransaction" method="post">
 	    	<input id="rentTransactionIDUpdate" type="hidden" name="id" />
-	    	<input id="invUserIDUpdate" type="hidden" name="invUserID" />
-			<input id="rentalIDUpdate" type="hidden" name="rentalID"  />
-			<input id="inOutUpdate" type="hidden" name="inOut"  />
-			<input id="dateUpdate" type="hidden" name="date"  />
-			<input id="customerUpdate" type="hidden" name="customer"  />
+	    	<input id="rentalIDUpdate" type="hidden" name="id" />
+    		<table class="tablepop">
+	    		<tr><td>User: </td><td><input id="invUserIDUpdate" type="text" disabled="disabled" name="invUserID" /></td></tr>
+				<tr><td>Rental: </td><td><input id="rentalIDUpdate" type="text" disabled="disabled" name="rentalID"  /></td></tr>
+				<tr><td>In/Out: </td><td><input id="inOutUpdate" type="text" name="inOut"  /></td></tr>
+				<tr><td>Date: </td><td><input id="dateUpdate" type="text" name="date"  /></td></tr>
+				<tr><td>Customer: </td><td><input id="customerUpdate" type="text" name="customer"  /></td></tr>
+				<tr><td colspan="2"><button type="button" onclick="cancelButton()">cancel</button><button type="button" id="savebutton" onclick="saveButton()">save</button></td></tr>
+    		</table>
     	</form>
     </div>
 
