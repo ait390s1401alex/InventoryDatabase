@@ -8,7 +8,20 @@
 
 package inventory.db;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+
+
+
+
+
+
+
+
 
 
 
@@ -18,7 +31,13 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilter;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Transaction;
 
 
@@ -376,5 +395,167 @@ public class Product {
 		List<Entity> result = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(limit));
 		return result;
 	}
+	
+	
+	/**
+	 * Return the out of stock products (e.g. 100).
+	 * 
+	 * @return A list of GAE {@link Entity entities}.
+	 */
+	public static List<Entity> getOutOfStock(int limit) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Query query = new Query(ENTITY_KIND);
+		Filter filter = new FilterPredicate("Quantity", FilterOperator.EQUAL, "0");
+		query.setFilter(filter);
+		List<Entity> result = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(limit));
+		return result;
+	}
+	
+	/**
+	 * Return the low of stock products (e.g. 100).
+	 * 
+	 * @return A list of GAE {@link Entity entities}.
+	 */
+	public static List<Entity> getLowStock(int limit) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Query query = new Query(ENTITY_KIND);
+		List<Entity> result = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(limit));
+		List<Entity> resultset = new ArrayList<Entity>();
+		
+		for(Entity product: result){
+			if(Integer.parseInt((String)product.getProperty(QTY_PROPERTY))<Integer.parseInt((String)product.getProperty(MIN_QUANT_PROPERTY))){
+				resultset.add(product);
+			}
+		}
+		return resultset;
+	}
+	
+	
+	/**
+	 * Return the earnings per products.
+	 * 
+	 * @return A list of GAE {@link Entity entities}.
+	 */
+	public static double getEarningsPerProduct(String id) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		Query query1 = new Query("InvTransaction");
+		Filter filter = new FilterPredicate("ProductID", FilterOperator.EQUAL, id);
+		query1.setFilter(filter);
+		PreparedQuery transactionPQ = datastore.prepare(query1);
+		
+		double rev = 0.0;
+		double exp = 0.0;
+		
+		for(Entity invTransaction: transactionPQ.asIterable()){
+			if(Integer.parseInt((String)InvTransaction.getTransQuantity(invTransaction)) < 0){
+				rev += Double.parseDouble((String)Product.getSalesPrice(Product.getProduct(id))) * ((-1) * Integer.parseInt((String)InvTransaction.getTransQuantity(invTransaction)));
+			}
+			if(Integer.parseInt((String)InvTransaction.getTransQuantity(invTransaction)) >= 0){
+				exp += Double.parseDouble((String)Product.getPurchasePrice(Product.getProduct(id))) * (Integer.parseInt((String)InvTransaction.getTransQuantity(invTransaction)));
+			}
+			
+		}
+		return (rev-exp);
+	}
+	
+	/**
+	 * Return the earnings per products.
+	 * 
+	 * @return A list of GAE {@link Entity entities}.
+	 */
+	public static double getEarningsPerProductPerMonth(String id, String mon, String year) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		Calendar calendar = Calendar.getInstance();
+		Calendar calendarend = Calendar.getInstance();
+		calendar.set(Integer.parseInt(year), Integer.parseInt(mon)-1, 1);		
+		
+		calendarend.set(Integer.parseInt(year), Integer.parseInt(mon)-1, 1);
+		calendarend.add(Calendar.MONTH, 1);		
+		
+		Query query1 = new Query("InvTransaction");
+		CompositeFilter compFilter = new CompositeFilter(CompositeFilterOperator.AND, Arrays.<Filter>asList(new FilterPredicate("ProductID", FilterOperator.EQUAL, id),
+				new FilterPredicate("Trans_Date", FilterOperator.GREATER_THAN_OR_EQUAL, calendar.getTime().getTime() + ""),
+				new FilterPredicate("Trans_Date", FilterOperator.LESS_THAN, calendarend.getTime().getTime() + "")));
+		query1.setFilter(compFilter);
+		PreparedQuery transactionPQ = datastore.prepare(query1);
+		
+		
+		double rev = 0.0;
+		double exp = 0.0;
+		
+		for(Entity invTransaction: transactionPQ.asIterable()){
+			if(Integer.parseInt((String)InvTransaction.getTransQuantity(invTransaction)) < 0){
+				rev += Double.parseDouble((String)Product.getSalesPrice(Product.getProduct(id))) * ((-1) * Integer.parseInt((String)InvTransaction.getTransQuantity(invTransaction)));
+			}
+			if(Integer.parseInt((String)InvTransaction.getTransQuantity(invTransaction)) >= 0){
+				exp += Double.parseDouble((String)Product.getPurchasePrice(Product.getProduct(id))) * (Integer.parseInt((String)InvTransaction.getTransQuantity(invTransaction)));
+			}
+			
+		}
+		return (rev-exp);
+	}
+	
+	/**
+	 * Return the number sold per products.
+	 * 
+	 * @return A list of GAE {@link Entity entities}.
+	 */
+	public static int getProductSold(String id) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		Query query1 = new Query("InvTransaction");
+		Filter filter = new FilterPredicate("ProductID", FilterOperator.EQUAL, id);
+		query1.setFilter(filter);
+		PreparedQuery transactionPQ = datastore.prepare(query1);
+		
+		int sold = 0;
+		
+		for(Entity invTransaction: transactionPQ.asIterable()){
+			if(Integer.parseInt((String)InvTransaction.getTransQuantity(invTransaction)) < 0){
+				sold += (-1) * Integer.parseInt((String)InvTransaction.getTransQuantity(invTransaction));
+			}
+			
+			
+		}
+		return sold;
+	}
+	
+	
+	/**
+	 * Return the number sold per products.
+	 * 
+	 * @return A list of GAE {@link Entity entities}.
+	 */
+	public static int getProductSoldPerMonth(String id, String mon, String year) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		Calendar calendar = Calendar.getInstance();
+		Calendar calendarend = Calendar.getInstance();
+		calendar.set(Integer.parseInt(year), Integer.parseInt(mon)-1, 1);		
+		
+		calendarend.set(Integer.parseInt(year), Integer.parseInt(mon)-1, 1);
+		calendarend.add(Calendar.MONTH, 1);	
+		
+		Query query1 = new Query("InvTransaction");
+		CompositeFilter compFilter = new CompositeFilter(CompositeFilterOperator.AND, Arrays.<Filter>asList(new FilterPredicate("ProductID", FilterOperator.EQUAL, id),
+				new FilterPredicate("Trans_Date", FilterOperator.GREATER_THAN_OR_EQUAL, calendar.getTime().getTime() + ""),
+				new FilterPredicate("Trans_Date", FilterOperator.LESS_THAN, calendarend.getTime().getTime() + "")));
+		query1.setFilter(compFilter);
+		PreparedQuery transactionPQ = datastore.prepare(query1);
+		
+		int sold = 0;
+		
+		for(Entity invTransaction: transactionPQ.asIterable()){
+			if(Integer.parseInt((String)InvTransaction.getTransQuantity(invTransaction)) < 0){
+				sold += (-1) * Integer.parseInt((String)InvTransaction.getTransQuantity(invTransaction));
+			}
+			
+			
+		}
+		return sold;
+	}
+
 
 }

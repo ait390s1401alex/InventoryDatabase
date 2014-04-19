@@ -60,7 +60,7 @@
 					    } else {
 					    	
 					    	%>
-			    	<p>Sign in below.</p>
+			    	Sign in below.<br />
 					    	<%
 					    	
 					    	final Map<String, String> openIdProviders;

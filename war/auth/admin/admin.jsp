@@ -33,6 +33,70 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     
     <script>
+    
+    	function generateReport(){
+    		var type = $("#selectedReport :selected").val();
+    		if(type == "outOfStock"){
+    			window.open('reports/outofstock.jsp', '_blank');
+    		}
+    		if(type == "lowStock"){
+    			window.open('reports/lowstock.jsp', '_blank');
+    		}
+    		if(type == "earningsProduct"){
+    			window.open('reports/earningsperproduct.jsp', '_blank');
+    		}
+    		if(type == "productSold"){
+    			window.open('reports/productsold.jsp', '_blank');
+    		}
+    		if(type == "earningsProductMonth"){
+    			var pos = $("#selectedReport").position();
+	    		var wid = $("#selectedReport").width();
+    			$("#monthpop").css({
+		            position: "absolute",
+		            top: (pos.top + 30) + "px",
+		            left: pos.left + (wid/2) - 75 + "px",
+		            width: "200px"
+		        }).show();
+		    	document.getElementById("monthpop").style.display = "";
+    		}
+    		if(type == "productSoldMonth"){
+    			var pos = $("#selectedReport").position();
+	    		var wid = $("#selectedReport").width();
+    			$("#monthpop").css({
+		            position: "absolute",
+		            top: (pos.top + 30) + "px",
+		            left: pos.left + (wid/2) - 75 + "px",
+		            width: "200px"
+		        }).show();
+		    	document.getElementById("monthpop").style.display = "";
+    		}
+    		
+    	}
+    	
+    	
+    	
+    	function monthReport(){
+    		var type = $("#selectedReport :selected").val();
+    		var mon = $("#selectedMonth :selected").val();
+    		var year = $("#selectedYear").val();
+    		if(type == "earningsProductMonth"){
+    			window.open('reports/earningspermonth.jsp?mon=' + mon + '&year=' + year, '_blank');
+    			document.getElementById("monthpop").style.display = "none";
+    		}
+    		if(type == "productSoldMonth"){
+    			window.open('reports/productsoldmonth.jsp?mon=' + mon + '&year=' + year, '_blank');
+    			document.getElementById("monthpop").style.display = "none";
+    		}
+    		
+    	}
+    	
+    	
+    	function cancelMonth(){
+    		document.getElementById("monthpop").style.display = "none";
+    	}
+    
+    
+    
 	    function popup(){
 	    	var pos = $("#menudrop").position();
 	    	var wid = $("#menudrop").width();
@@ -54,7 +118,7 @@
   <body>
   
   <div class="topbar"></div>
-  <div class="background">
+  <div class="background" id="background">
   
 	  
 	  			    <%
@@ -99,6 +163,52 @@
 	
 	<p><a href="allRentalItems.jsp">Show all Rental Items</a></p>
 	<p><a href="allRentalTransactions.jsp">Show all Rental Transactions</a></p>
+	
+	<hr />
+	<h2>Reports</h2>
+		<select name="reportType" id="selectedReport">
+			<option value="outOfStock">All Products Out of Stock</option>
+			<option value="lowStock">All Products Low on Stock</option>
+			<option value="earningsProduct">Earnings per Product</option>
+			<option value="productSold">Total Products Sold</option>
+			<option value="earningsProductMonth">Earnings per Product for Month</option>
+			<option value="productSoldMonth">Products Sold for Month</option>
+		</select>
+		<button type="button" onclick="generateReport()">Submit</button>
+	</div>
+	
+	<div id="monthpop" class="monthpop" style="display:none">
+	<table class="monthtable">
+	<tr><td>Month: </td>
+	<td>
+		<select name="month" id="selectedMonth">
+			<option value="01">January</option>
+			<option value="02">February</option>
+			<option value="03">March</option>
+			<option value="04">April</option>
+			<option value="05">May</option>
+			<option value="06">June</option>
+			<option value="07">July</option>
+			<option value="08">August</option>
+			<option value="09">September</option>
+			<option value="10">October</option>
+			<option value="11">November</option>
+			<option value="12">December</option>
+		</select>
+		</td>
+		</tr>
+		<tr><td>Year: </td>
+		<td>
+		<input type="text" id="selectedYear" size="4" />
+		</td>
+		</tr>
+		<tr>
+		<td colspan="2">
+		<button type="button" onclick="monthReport()">Submit</button>
+		<button type="button" onclick="cancelMonth()">Cancel</button>
+		</td>
+		</tr>
+		</table>
 	</div>
   </body>
 </html>

@@ -65,7 +65,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	</filter-mapping>
 	
 	
-
+	
 	
 	<!-- STANDARDUSER FILTER - DISABLED FOR TESTING -->
     
@@ -79,7 +79,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/auth/user/*</url-pattern>
 	</filter-mapping>
 	
-
+	
 	
 	
     
@@ -292,6 +292,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>AddTransactionServletUser</servlet-name>
 		<url-pattern>/auth/user/inventoryTransaction</url-pattern>
 	</servlet-mapping>
+
 
 
 	

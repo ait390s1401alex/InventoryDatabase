@@ -130,7 +130,7 @@
 						<div class="top" id="menudrop" style="float:right"><a href="#" onmouseover="popup();" onmouseout="popoff();"><%=InvUser.getFirstName(invUser)%> <%=InvUser.getLastName(invUser)%></a></div>
 						<div id="popup" class="popup" onmouseover="popup();" onmouseout="popoff();" style="display:none">
 						<ul>
-							<li><a href="editProfile.jsp" >PROFILE</a></li>
+							<li><a href="/editProfile.jsp" >PROFILE</a></li>
 							<li><a href="/logout">LOGOUT</a></li>
 						</ul>
 						</div>
@@ -183,10 +183,10 @@
 
 		<tr id="view<%=rentTransID%>">
 				<td><%=invUserID%><input id="invUserID<%=rentTransID%>" type="text" name="invUserID" value="<%=invUserID%>" size="20" disabled="disabled" hidden="true" /></td>
-				<td><%=rentalID %><input id="rentalID<%=rentTransID%>" type="text" name="rentalID" value="<%=rentalID%>" size="20" disabled="disabled" hidden="true" /></td>
-				<td><%=inOut %><input id="inOut<%=rentTransID%>" type="text" name="inOut" value="<%=inOut%>" size="20" hidden="true" /></td>
-				<td><%=dateText %><input id="date<%=rentTransID%>" type="text" name="date" value="<%=dateText%>" size="20" disabled="disabled" hidden="true" /></td>
-				<td><%=customer %><input id="customer<%=rentTransID%>" type="text" name="customer" value="<%=customer%>" size="20" hidden="true" /></td>
+				<td><%=rentalID%><input id="rentalID<%=rentTransID%>" type="text" name="rentalID" value="<%=rentalID%>" size="20" disabled="disabled" hidden="true" /></td>
+				<td><%=inOut%><input id="inOut<%=rentTransID%>" type="text" name="inOut" value="<%=inOut%>" size="20" hidden="true" /></td>
+				<td><%=dateText%><input id="date<%=rentTransID%>" type="text" name="date" value="<%=dateText%>" size="20" disabled="disabled" hidden="true" /></td>
+				<td><%=customer%><input id="customer<%=rentTransID%>" type="text" name="customer" value="<%=customer%>" size="20" hidden="true" /></td>
 				<td><button type="button" onclick="editButton(<%=rentTransID%>)">Edit</button></td>
 				<td><button type="button" onclick="deleteButton(<%=rentTransID%>)">Delete</button></td>
 		</tr>
@@ -227,7 +227,6 @@
     <div id="editpop" class="editpop" style="display:none">
     	<form id="finalSubmit" action="updateRentalTransaction" method="post">
 	    	<input id="rentTransactionIDUpdate" type="hidden" name="id" />
-	    	<input id="rentalIDUpdate" type="hidden" name="id" />
     		<table class="tablepop">
 	    		<tr><td>User: </td><td><input id="invUserIDUpdate" type="text" disabled="disabled" name="invUserID" /></td></tr>
 				<tr><td>Rental: </td><td><input id="rentalIDUpdate" type="text" disabled="disabled" name="rentalID"  /></td></tr>
