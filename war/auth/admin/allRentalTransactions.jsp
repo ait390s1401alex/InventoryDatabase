@@ -168,8 +168,18 @@
 		<tbody>
 		<%
 			for (Entity rentTransaction : allTransactions) {
-					String invUserID = InvUser.getLoginID(InvUser.getInvUser(RentTransaction.getInvUserID(rentTransaction)));
-					String rentalID = Rental.getName(Rental.getRental(RentTransaction.getRentalID(rentTransaction)));
+					String invUserID = "";
+					String rentalID = "";
+					if(InvUser.getInvUser(RentTransaction.getInvUserID(rentTransaction)) != null){
+						invUserID = InvUser.getLoginID(InvUser.getInvUser(RentTransaction.getInvUserID(rentTransaction)));
+					}else{
+						invUserID = RentTransaction.getInvUserID(rentTransaction);
+					}
+					if(Rental.getRental(RentTransaction.getRentalID(rentTransaction)) != null){
+						rentalID = Rental.getName(Rental.getRental(RentTransaction.getRentalID(rentTransaction)));
+					}else{
+						rentalID = RentTransaction.getRentalID(rentTransaction);
+					}
 					String inOut = RentTransaction.getInOut(rentTransaction);
 					String transDate = RentTransaction.getDateValue(rentTransaction);
 					Date date = new Date(Long.parseLong(transDate));

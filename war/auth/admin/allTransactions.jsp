@@ -166,8 +166,18 @@
 		<tbody>
 		<%
 			for (Entity invTransaction : allTransactions) {
-					String invUserID = InvUser.getLoginID(InvUser.getInvUser(InvTransaction.getInvUserID(invTransaction)));
-					String productID = Product.getName(Product.getProduct(InvTransaction.getProductID(invTransaction)));
+					String invUserID = "";
+					String productID = "";
+					if(InvUser.getInvUser(InvTransaction.getInvUserID(invTransaction)) != null){
+						invUserID = InvUser.getLoginID(InvUser.getInvUser(InvTransaction.getInvUserID(invTransaction)));
+					}else{
+						invUserID = InvTransaction.getInvUserID(invTransaction);
+					}
+					if(Product.getProduct(InvTransaction.getProductID(invTransaction)) != null){
+						productID = Product.getName(Product.getProduct(InvTransaction.getProductID(invTransaction)));
+					}else{
+						productID = InvTransaction.getProductID(invTransaction);
+					}
 					String transQuantity = InvTransaction.getTransQuantity(invTransaction);
 					String transDate = InvTransaction.getTransDate(invTransaction);
 					Date date = new Date(Long.parseLong(transDate));
