@@ -70,6 +70,13 @@
 	z-index: 2;
 }
 
+.updatepopup{
+	border: 1px black solid;
+	padding: 10px;
+	background-color: white;
+	vertical-align: center;
+	z-index: 2;
+}
 
 h1 {
 	width: 690px;

@@ -46,9 +46,18 @@
 	
 
     function editButton(ID) {
+    	var pos = $("#view" + ID).position();
+    	var wid = $("#view" + ID).width()
     	$("#productIDUpdate").val(ID);
-    	document.getElementById("updatepopup").style.display = "";
-    	document.getElementbyId("newQuant").focus();
+    	$("#updatepopup").css({
+            position: "absolute",
+            top: (pos.top + 15) + "px",
+            left: pos.left + wid/2 - (wid/2 + 100)/2 + "px",
+            width: wid/2 + 100 + "px",
+            height: 40 + "px"
+        }).show();
+    	
+    	document.getElementById("newquant").focus();
     }
     
     function cancelButton(ID) {
@@ -193,11 +202,11 @@
 	
 	
     
-    <div id="updatepopup" style="background-color:white; text-align:center; display:none; position: fixed;top: 20%;z-index: 2;">
-    	<form id="finalSubmit" action="inventoryTransaction" method="post">
+    <div id="updatepopup" class="updatepopup" style="display: none">
+    	<form id="finalSubmit" action="inventoryTransaction" method="post" >
     		<input id="productIDUpdate" type="hidden" name="id" />
 			<input type="hidden" name="invUserID" value="<%=userID %>" />
-			New Quantity value: <input id="newQuant" type="text" name="quantity" size="20" />
+			New Quantity value: <input id="newquant" type="text" name="quantity" size="20" />
 			<button type="button" onclick="saveButton()">save</button>
 			<button type="button" onclick="cancelButton()">cancel</button>
     	</form>

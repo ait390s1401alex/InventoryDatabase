@@ -167,12 +167,12 @@
 	<hr />
 	<h2>Reports</h2>
 		<select name="reportType" id="selectedReport">
-			<option value="outOfStock">All Products Out of Stock</option>
 			<option value="lowStock">All Products Low on Stock</option>
-			<option value="earningsProduct">Earnings per Product</option>
-			<option value="productSold">Total Products Sold</option>
+			<option value="outOfStock">All Products Out of Stock</option>
 			<option value="earningsProductMonth">Earnings per Product for Month</option>
-			<option value="productSoldMonth">Products Sold for Month</option>
+			<option value="productSoldMonth">Quantity Sold per Product for Month</option>
+			<option value="earningsProduct">Total Earnings per Product - All time</option>
+			<option value="productSold">Total Quantity Sold per Product - All time</option>
 		</select>
 		<button type="button" onclick="generateReport()">Submit</button>
 	</div>

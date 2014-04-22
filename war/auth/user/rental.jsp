@@ -47,8 +47,17 @@
 	
 
     function editButton(ID) {
+    	var pos = $("#view" + ID).position();
+    	var wid = $("#view" + ID).width()
     	$("#rentalIDUpdate").val(ID);
     	$("#isRentedUpdate").val($("#isRented"+ID).val());
+    	$("#customerpopup").css({
+            position: "absolute",
+            top: (pos.top + 15) + "px",
+            left: pos.left + wid/2 - (wid/2 + 100)/2 + "px",
+            width: wid/2 + 100 + "px",
+            height: 40 + "px"
+        }).show();
     	document.getElementById("customerpopup").style.display = "";
     	document.getElementById("newCust").focus();
     }
@@ -213,7 +222,7 @@
 	
 	
     
-    <div id="customerpopup" style="background-color:white; text-align:center; display:none; position: fixed;top: 20%;z-index: 2;">
+    <div id="customerpopup" class="updatepopup" style="display: none" >
     	<form id="finalSubmit" action="rentTransaction" method="post">
     		<input id="rentalIDUpdate" type="hidden" name="id" />
 			<input id="isRentedUpdate" type="hidden" name="isRented"  />

@@ -58,7 +58,7 @@
   			<th>Quantity</th>
   			<th>Min Quantity</th>
   			<th>Max Quantity</th>
-  			<th>Total earnings in Dollars ($)(revenue - expense)</th>
+  			<th>Total earnings in Dollars (revenue - expense)</th>
  		</tr>
 	</thead>
 	<tbody>
