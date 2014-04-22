@@ -92,7 +92,7 @@
 						</div>
 						
 						
-							<div id="main">
+
 					<table>
 				  		<tr>
 				  			<td><h1>Economy Party Supplies Inventory Management</h1></td>
@@ -108,7 +108,7 @@
 							</tr>
 							<tr>
 							<td>
-								<p>TODO - INSERT IMAGE HERE</p>
+								<img alt="EconomyPartySuplies" src="/stylesheets/logo.jpg" height="520px" width="400px" />
 
 							
 							
@@ -129,7 +129,8 @@
 	  		</tr>
 	  </table>
 	  </div>
-	  </div>
+
+	  
 
     
 
