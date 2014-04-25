@@ -181,7 +181,7 @@
 				%>
 
 				<tr id="view<%=id%>">
-					<td><%=name%></td>
+					<td class="invname"><%=name%></td>
 					<td><%=description%></td>
 					<td><%=price%> per day</td>
 					<td><%=cust%><input id="isRented<%=id%>" type="hidden" name="isRented" value="<%=isRented%>" /></td>

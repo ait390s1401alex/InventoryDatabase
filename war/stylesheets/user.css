@@ -113,6 +113,10 @@ td {
 	color: black;
 }
 
+.invname {
+	text-align: left;
+}
+
 th {
 	color: black;
 }

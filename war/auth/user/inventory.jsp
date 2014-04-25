@@ -68,8 +68,8 @@
     function saveButton() {
     	document.getElementById("updatepopup").style.display = "none";
     	
-    	var val = $("#newQuant").val();
-    	if(val>0) {
+    	var intRegex = /^\d+$/;
+    	if(intRegex.test($("#newQuant").val())) {
     		document.forms["finalSubmit"].submit();
     	}else{
     		alert('Invalid entry. Please only enter a non negative integer.');
@@ -176,7 +176,7 @@
 				
 
 				<tr id="view<%=id%>">
-					<td><%=name%></td>
+					<td class="invname"><%=name%></td>
 					<td><%=minQuant%></td>
 					<td><%=maxQuant%></td>
 					<td><%=quantity%></td>
@@ -206,7 +206,7 @@
     	<form id="finalSubmit" action="inventoryTransaction" method="post" >
     		<input id="productIDUpdate" type="hidden" name="id" />
 			<input type="hidden" name="invUserID" value="<%=userID %>" />
-			New Quantity value: <input id="newWuant" type="text" name="quantity" size="20" />
+			New Quantity value: <input id="newQuant" type="text" name="quantity" size="20" />
 			<button type="button" onclick="saveButton()">save</button>
 			<button type="button" onclick="cancelButton()">cancel</button>
     	</form>
