@@ -104,7 +104,7 @@
 							</td>
 							</tr>
 							<tr>
-							<td><h1>Welcome <%=InvUser.getFirstName(invUser) %>!</h1></td>
+							<td><h2>Welcome <%=InvUser.getFirstName(invUser) %>!</h2></td>
 							</tr>
 							<tr>
 							<td>
