@@ -20,12 +20,21 @@ body {
 	background-color:EEEECC;
 	vertical-align:center;
 	width: 100%;
-	height: 99%;
 	padding: 3px;
 	margin: 0px auto;
 	color: black;
 	text-align: left;
 	float: left;
+	
+}
+
+.backgroundwrapper{
+	background-color:EEEECC;
+	vertical-align:center;
+	width: 99%;
+	height: 99%;
+	padding: 3px;
+	margin: 0px auto;
 	
 }
 

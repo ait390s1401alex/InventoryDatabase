@@ -89,7 +89,9 @@
     
     
     $(document).ready(function() {
-        $('#maintable').dataTable();
+        $('#maintable').dataTable( {
+            "iDisplayLength": 50
+        } );
     } );
     
     </script>
@@ -101,6 +103,7 @@
   <body>
   
 <div class="topbar"></div>
+<div class="backgroundwrapper">
   <div class="background">
   
 	  
@@ -196,7 +199,7 @@
 				%>
 
 				<tr id="view<%=id%>">
-					<td><%=name%></td>
+					<td class="invname"><%=name%></td>
 					<td><%=description%></td>
 					<td><%=price%> per day</td>
 					<td>-----<input id="isRented<%=id%>" type="hidden" name="isRented" value="<%=isRented%>" /></td>
@@ -239,6 +242,7 @@
 	%>
     
 
+</div>
 </div>
   </body>
 </html>

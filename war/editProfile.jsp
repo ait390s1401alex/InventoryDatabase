@@ -137,7 +137,7 @@
 				
 			</table>
 			<input type="hidden" name="loginID" value="<%=user.getNickname()%>" />
-			<input type="hidden" name="invUserID" value="<%=InvUser.getStringID(invUser)%>" />
+			<input type="hidden" name="id" value="<%=InvUser.getStringID(invUser)%>" />
 			<input type="submit" value="update" />
 		</form>
 

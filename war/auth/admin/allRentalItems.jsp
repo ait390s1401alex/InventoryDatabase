@@ -96,7 +96,9 @@
     }
     
     $(document).ready( function () {
-        $("#maintable").dataTable();
+        $("#maintable").dataTable( {
+            "iDisplayLength": 100
+        } );
     } );
     
     </script>
@@ -107,6 +109,7 @@
 
   <body>
 <div class="topbar"></div>
+<div class="backgroundwrapper">
   <div class="background">
   
 	  
@@ -222,6 +225,7 @@
     	</table>
     	</form>
     </div>
+	</div>
 	</div>
   </body>
 </html>

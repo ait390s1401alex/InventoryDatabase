@@ -98,7 +98,9 @@
     
     
     $(document).ready(function() {
-        $('#maintable').dataTable();
+        $('#maintable').dataTable( {
+            "iDisplayLength": 100
+        } );
     } );
     
     </script>
@@ -109,6 +111,7 @@
 
   <body>
   <div class="topbar"></div>
+  <div class="backgroundwrapper">
   <div class="background">
   
 	  
@@ -210,6 +213,9 @@
 
 
 	<hr />
+	
+	<!-- USED FOR TESTING PURPOSES ONLY
+	
 	<form action="addTransaction" method="post">
 	<table>
 		<tr>
@@ -226,6 +232,8 @@
 		<input type="submit" value="Add Transaction" />
     </form>
     
+    -->
+    
     <div id="editpop" class="editpop" style="display:none">
     	<form id="finalSubmit" action="updateTransaction" method="post">
 	    	<input id="invTransactionIDUpdate" type="hidden" name="id" />
@@ -238,6 +246,7 @@
     	</form>
     </div>
 
+</div>
 </div>
   </body>
 

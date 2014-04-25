@@ -96,6 +96,7 @@
 
   <body>
   <div class="topbar"></div>
+  <div class="backgroundwrapper">
   <div class="background">
   
 	  
@@ -216,6 +217,7 @@
     	</form>
     </div>
 
+</div>
 </div>
   </body>
 

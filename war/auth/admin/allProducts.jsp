@@ -103,7 +103,9 @@
     
     
     $(document).ready( function () {
-        $("#allproducts").dataTable();
+        $("#allproducts").dataTable( {
+            "iDisplayLength": 100
+        } );
     } );
     
     </script>
@@ -114,6 +116,7 @@
 
   <body>
   <div class="topbar"></div>
+  <div class="backgroundwrapper">
   <div class="background">
   
 	  
@@ -209,9 +212,6 @@
     <form action="addProduct" method="post">
     <table>
     <thead>
-    	<tr>
-    		<th>item</th><th>data</th>
-    	</tr>
     </thead>
     <tbody>
     	<tr>
@@ -255,6 +255,7 @@
     
     
     
+</div>
 </div>
   </body>
 </html>

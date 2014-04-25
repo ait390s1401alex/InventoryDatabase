@@ -100,7 +100,9 @@
     }
     
     $(document).ready(function() {
-        $('#maintable').dataTable();
+        $('#maintable').dataTable( {
+            "iDisplayLength": 100
+        } );
     } );
     
     </script>
@@ -111,6 +113,7 @@
 
   <body>
   <div class="topbar"></div>
+  <div class="backgroundwrapper">
   <div class="background">
   
 	  
@@ -213,6 +216,8 @@
 
 
 	<hr />
+	
+	<!-- USED FOR TESTING PURPOSES ONLY
 	<form action="addRentalTransaction" method="post">
 	<table>
 		<tr>
@@ -234,6 +239,8 @@
 		<input type="submit" value="Add Transaction" />
     </form>
     
+    -->
+    
     <div id="editpop" class="editpop" style="display:none">
     	<form id="finalSubmit" action="updateRentalTransaction" method="post">
 	    	<input id="rentTransactionIDUpdate" type="hidden" name="id" />
@@ -241,13 +248,14 @@
 	    		<tr><td>User: </td><td><input id="invUserIDUpdate" type="text" disabled="disabled" name="invUserID" /></td></tr>
 				<tr><td>Rental: </td><td><input id="rentalIDUpdate" type="text" disabled="disabled" name="rentalID"  /></td></tr>
 				<tr><td>In/Out: </td><td><input id="inOutUpdate" type="text" name="inOut"  /></td></tr>
-				<tr><td>Date: </td><td><input id="dateUpdate" type="text" name="date"  /></td></tr>
+				<tr><td>Date: </td><td><input id="dateUpdate" type="text" name="date" disabled="disabled" /></td></tr>
 				<tr><td>Customer: </td><td><input id="customerUpdate" type="text" name="customer"  /></td></tr>
 				<tr><td colspan="2"><button type="button" onclick="cancelButton()">cancel</button><button type="button" id="savebutton" onclick="saveButton()">save</button></td></tr>
     		</table>
     	</form>
     </div>
 
+</div>
 </div>
   </body>
 
