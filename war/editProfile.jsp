@@ -138,6 +138,8 @@
 			</table>
 			<input type="hidden" name="loginID" value="<%=user.getNickname()%>" />
 			<input type="hidden" name="id" value="<%=InvUser.getStringID(invUser)%>" />
+			<input type="hidden" name="isAdmin" value="<%=InvUser.getIsAdmin(invUser) %>" />
+			<input type="hidden" name="isStandardUser" value="<%=InvUser.getIsStandardUser(invUser) %>" />
 			<input type="submit" value="update" />
 		</form>
 

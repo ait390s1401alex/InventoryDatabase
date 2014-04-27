@@ -25,6 +25,7 @@ public class UpdateUserServlet extends HttpServlet {
 	
 		
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
 		String invUserID = req.getParameter("id");
 		String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
