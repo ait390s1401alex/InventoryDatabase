@@ -202,7 +202,7 @@
 					<td class="invname"><%=name%></td>
 					<td><%=description%></td>
 					<td><%=price%> per day</td>
-					<td>-----<input id="isRented<%=id%>" type="hidden" name="isRented" value="<%=isRented%>" /></td>
+					<td>-----<input id="isRented<%=id%>" type="hidden" name="isRented" value="false" /></td>
 					<td><button type="button" onclick="editButton(<%=id%>)">Rent</button></td>
 				</tr>
 				

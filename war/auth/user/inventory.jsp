@@ -57,7 +57,6 @@
             height: 40 + "px"
         }).show();
     	
-    	document.getElementById("newquant").focus();
     }
     
     function cancelButton(ID) {
@@ -209,7 +208,7 @@
     	<form id="finalSubmit" action="inventoryTransaction" method="post" >
     		<input id="productIDUpdate" type="hidden" name="id" />
 			<input type="hidden" name="invUserID" value="<%=userID %>" />
-			New Quantity value: <input id="newQuant" type="text" name="quantity" size="20" />
+			New Quantity Value: <input id="newQuant" type="text" name="quantity" size="20" />
 			<button type="button" onclick="saveButton()">save</button>
 			<button type="button" onclick="cancelButton()">cancel</button>
     	</form>
